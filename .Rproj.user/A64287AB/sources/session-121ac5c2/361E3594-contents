@@ -1,0 +1,7 @@
+criar_boxplot <- function(dados, variavel){
+  boxplot(
+    dados[[variavel]],
+    main = paste("Boxplot de", variavel),
+    ylab = variavel
+  )
+}
