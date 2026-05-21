@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Lívia Neves Rodrigues Vitor Estevam">
+
+<title>Análise de Acidentes Rodoviários em Minas Gerais</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="projeto_files/libs/clipboard/clipboard.min.js"></script>
+<script src="projeto_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="projeto_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="projeto_files/libs/quarto-html/popper.min.js"></script>
+<script src="projeto_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="projeto_files/libs/quarto-html/anchor.min.js"></script>
+<link href="projeto_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="projeto_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="projeto_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="projeto_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="projeto_files/libs/bootstrap/bootstrap-efbb37e9afcc02144ebbc7afd12a776f.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Análise de Acidentes Rodoviários em Minas Gerais</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Lívia Neves Rodrigues Vitor Estevam </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introdução" class="level1">
+<h1>1 Introdução</h1>
+<p>O presente relatório tem como objetivo realizar uma análise descritiva da base de dados de acidentes rodoviários registrados em Minas Gerais no ano de 2020. A análise busca identificar padrões, distribuições e possíveis associações relacionadas aos acidentes, considerando variáveis temporais, espaciais e características dos registros.</p>
+<p>Inicialmente, foi realizada uma etapa de tratamento e organização dos dados, envolvendo verificação de inconsistências, padronização das variáveis e criação de novas variáveis auxiliares para facilitar as análises posteriores. Em seguida, foram desenvolvidas análises exploratórias univariadas e bivariadas, utilizando medidas descritivas, tabelas de frequência e representações gráficas.</p>
+<p>Além disso, o projeto busca explorar relações entre fatores como período do dia, tipo de acidente, condições meteorológicas e características das rodovias, visando obter uma compreensão mais detalhada do comportamento dos acidentes registrados no estado.</p>
+</section>
+<section id="base-de-dados" class="level1">
+<h1>2 Base de dados</h1>
+<section id="estrutura-da-base" class="level2">
+<h2 class="anchored" data-anchor-id="estrutura-da-base">2.1 Estrutura da base</h2>
+</section>
+<section id="classificação-de-variáveis" class="level2">
+<h2 class="anchored" data-anchor-id="classificação-de-variáveis">2.2 Classificação de variáveis</h2>
+</section>
+</section>
+<section id="limpeza-e-tratamento-de-dados" class="level1">
+<h1>3 Limpeza e tratamento de dados</h1>
+<section id="valores-ausentes" class="level2">
+<h2 class="anchored" data-anchor-id="valores-ausentes">3.1 Valores ausentes</h2>
+</section>
+<section id="padronização-das-variáveis" class="level2">
+<h2 class="anchored" data-anchor-id="padronização-das-variáveis">3.2 Padronização das variáveis</h2>
+</section>
+<section id="variáveis-temporais" class="level2">
+<h2 class="anchored" data-anchor-id="variáveis-temporais">3.3 Variáveis temporais</h2>
+</section>
+<section id="transformação-de-variáveis" class="level2">
+<h2 class="anchored" data-anchor-id="transformação-de-variáveis">3.4 Transformação de variáveis</h2>
+<p>A variável fase_dia não foi utilizada nas análises exploratórias, pois apresenta informações semelhantes à variável periodo, criada durante a etapa de tratamento dos dados.</p>
+<p>A variável periodo foi construída a partir da variável hora, permitindo uma categorização mais padronizada dos horários dos acidentes em madrugada, manhã, tarde e noite.</p>
+<p>Dessa forma, optou-se por utilizar apenas a variável periodo nas análises posteriores, evitando redundância nas interpretações.</p>
+</section>
+<section id="verificação-de-consistência" class="level2">
+<h2 class="anchored" data-anchor-id="verificação-de-consistência">3.5 Verificação de consistência</h2>
+</section>
+</section>
+<section id="análise-exploratória" class="level1">
+<h1>4 Análise exploratória</h1>
+<section id="análise-univariada" class="level2">
+<h2 class="anchored" data-anchor-id="análise-univariada">4.1 Análise univariada</h2>
+<section id="váriáveis-numéricas" class="level3">
+<h3 class="anchored" data-anchor-id="váriáveis-numéricas">4.1.1 Váriáveis numéricas</h3>
+<section id="pessoas" class="level4">
+<h4 class="anchored" data-anchor-id="pessoas">Pessoas</h4>
+<p>A variável pessoas representa a quantidade de indivíduos envolvidos em cada acidente registrado. Para compreender sua distribuição, foram utilizadas medidas descritivas e gráficos de distribuição.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"pessoas"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: pessoas
+====================
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.00    1.00    2.00    2.23    3.00   14.00 
+
+Desvio padrão: 1.445585
+Variância: 2.089716</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"pessoas"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"pessoas"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se que a maior parte dos acidentes envolve entre uma e três pessoas, indicando concentração dos valores em faixas mais baixas. A mediana igual a 2 demonstra que metade dos acidentes possui até duas pessoas envolvidas, enquanto a outra metade apresenta valores superiores.</p>
+<p>Além disso, o boxplot evidencia a presença de diversos valores extremos (outliers), indicando ocorrências menos frequentes com elevado número de pessoas envolvidas.</p>
+<p>A proximidade entre média (2,23) e mediana (2) sugere que, apesar da presença de outliers, a distribuição não apresenta assimetria muito acentuada.</p>
+</section>
+<section id="feridos-levesgraves" class="level4">
+<h4 class="anchored" data-anchor-id="feridos-levesgraves">Feridos( leves/graves)</h4>
+<p>As variáveis feridos, feridos_leves e feridos_graves indicam a quantidade de pessoas atingidas nos acidentes e a gravidade dos ferimentos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"feridos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: feridos
+====================
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   1.000   1.000   1.265   2.000  13.000 
+
+Desvio padrão: 1.067038
+Variância: 1.138571</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"feridos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"feridos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"feridos_leves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: feridos_leves
+====================
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0000  0.0000  1.0000  0.9826  1.0000 11.0000 
+
+Desvio padrão: 0.9840357
+Variância: 0.9683262</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"feridos_leves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"feridos_leves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"feridos_graves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: feridos_graves
+====================
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0000  0.0000  0.0000  0.2823  0.0000  8.0000 
+
+Desvio padrão: 0.6108166
+Variância: 0.3730969</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"feridos_graves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"feridos_graves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-5-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Em relação à variável feridos, nota-se que a quantidade de pessoas feridas nos acidentes se concentra principalmente entre zero e duas pessoas. A mediana igual a 1 indica que pelo menos metade dos acidentes apresenta até um ferido.</p>
+<p>Com base no boxplot, é possível observar a presença de valores extremos (outliers), indicando poucos acidentes com quantidade elevada de feridos.</p>
+<p>A variável feridos_leves apresenta concentração em valores baixos, principalmente entre zero e um ferido leve por acidente. Além disso, a proximidade entre média e mediana sugere distribuição relativamente concentrada nos valores centrais.</p>
+<p>Já a variável feridos_graves apresenta forte concentração entre zero e um ferido grave, sendo o valor zero o mais frequente. Também é possível observar a presença de diversos valores extremos, indicando acidentes menos frequentes com maior número de feridos graves.</p>
+</section>
+<section id="mortos" class="level4">
+<h4 class="anchored" data-anchor-id="mortos">Mortos</h4>
+<p>A variável mortos indica a quantidade de vítimas fatais nos acidentes.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"mortos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: mortos
+====================
+
+    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+ 0.00000  0.00000  0.00000  0.07971  0.00000 12.00000 
+
+Desvio padrão: 0.3697576
+Variância: 0.1367207</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"mortos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"mortos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ao analisar essa variável, percebe-se que a grande maioria dos acidentes não resultou em vítimas fatais. Entretanto, o boxplot evidencia a presença de valores extremos (outliers), indicando a ocorrência de acidentes mais graves, embora menos frequentes.</p>
+</section>
+<section id="ilesos" class="level4">
+<h4 class="anchored" data-anchor-id="ilesos">Ilesos</h4>
+<p>A variável ilesos representa a quantidade de pessoas envolvidas nos acidentes que não sofreram ferimentos.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"ilesos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: ilesos
+====================
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0000  0.0000  1.0000  0.8851  1.0000 13.0000 
+
+Desvio padrão: 1.083698
+Variância: 1.174401</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"ilesos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"ilesos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se que, na maior parte dos acidentes, entre zero e uma pessoa saiu ilesa. Além disso, a proximidade entre média e mediana sugere distribuição relativamente simétrica dos dados.</p>
+<p>Ao analisar o boxplot, percebe-se também a presença de diversos valores extremos (outliers), indicando acidentes com maior quantidade de pessoas ilesas.</p>
+</section>
+<section id="veículos" class="level4">
+<h4 class="anchored" data-anchor-id="veículos">Veículos</h4>
+<p>A variável veiculos representa a quantidade de veículos envolvidos em cada acidente.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"veiculos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: veiculos
+====================
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  1.000   1.000   1.000   1.555   2.000   9.000 
+
+Desvio padrão: 0.7270478
+Variância: 0.5285985</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"veiculos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"veiculos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Ao observar os gráficos e os resumos estatísticos da variável, percebe-se que a maior parte dos acidentes envolveu entre um e dois veículos. A mediana igual a 1 indica que, em pelo menos metade dos acidentes registrados, apenas um veículo estava envolvido.</p>
+<p>Além disso, o boxplot evidencia a presença de alguns valores extremos, indicando acidentes com quantidade significativamente maior de veículos envolvidos.</p>
+</section>
+</section>
+<section id="variáveis-categóricas" class="level3">
+<h3 class="anchored" data-anchor-id="variáveis-categóricas">4.1.2 Variáveis categóricas</h3>
+<p>Condição metereológica</p>
+<p>A variável condicao_meteorologica representa as condições climáticas no momento em que o acidente ocorreu.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"condicao_metereologica"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: condicao_metereologica
+====================
+
+# A tibble: 5 × 3
+  condicao_metereologica     n porcentagem
+  &lt;chr&gt;                  &lt;int&gt;       &lt;dbl&gt;
+1 Céu Claro               3960       60.6 
+2 Nublado                 1225       18.7 
+3 Chuva                   1208       18.5 
+4 Ignorado                 100        1.53
+5 Nevoeiro/Neblina          43        0.66</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"condicao_metereologica"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se que a maior parte dos acidentes aconteceu em situações de céu claro, totalizando 3.960 ocorrências. Em seguida, destacam-se os acidentes ocorridos em condições de céu nublado, com 1.225 registros.</p>
+<p>Por outro lado, condições como nevoeiro ou neblina apresentaram baixa frequência de acidentes, sendo as categorias com menor número de ocorrências na base analisada.</p>
+<p>Tipo de pista</p>
+<p>A variável tipo_pista indica a configuração da rodovia onde ocorreu o acidente.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"tipo_pista"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: tipo_pista
+====================
+
+# A tibble: 3 × 3
+  tipo_pista     n porcentagem
+  &lt;chr&gt;      &lt;int&gt;       &lt;dbl&gt;
+1 Simples     3335       51.0 
+2 Dupla       2990       45.8 
+3 Múltipla     211        3.23</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"tipo_pista"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se predominância de acidentes em pistas simples, correspondendo a aproximadamente 51% das ocorrências registradas. Esse resultado sugere maior concentração de acidentes em rodovias com esse tipo de configuração.<br>
+<br>
+Já as pistas múltiplas apresentaram menor frequência de acidentes, totalizando apenas 211 ocorrências.</p>
+<p>Período</p>
+<p>A variável periodo representa o período do dia em que o acidente ocorreu.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"periodo"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: periodo
+====================
+
+# A tibble: 4 × 3
+  periodo       n porcentagem
+  &lt;ord&gt;     &lt;int&gt;       &lt;dbl&gt;
+1 Tarde      2218       33.9 
+2 Manhã      2000       30.6 
+3 Noite      1746       26.7 
+4 Madrugada   572        8.75</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"periodo"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se que a maior parte dos acidentes aconteceu nos períodos da tarde e da manhã. O período da tarde concentrou 2.218 ocorrências, correspondendo a aproximadamente 33,9% dos acidentes, enquanto o período da manhã apresentou 2.000 registros, representando cerca de 30,6% das ocorrências.<br>
+<br>
+Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com apenas 572 ocorrências, correspondendo a aproximadamente 8,75% do total.</p>
+<p>Dia da semana</p>
+<p>A variável dia_semana representa o dia da semana em que os acidentes ocorreram.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"dia_semana"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: dia_semana
+====================
+
+# A tibble: 7 × 3
+  dia_semana     n porcentagem
+  &lt;ord&gt;      &lt;int&gt;       &lt;dbl&gt;
+1 sábado      1102        16.9
+2 sexta       1059        16.2
+3 domingo     1053        16.1
+4 segunda      857        13.1
+5 quinta       846        12.9
+6 quarta       825        12.6
+7 terça        794        12.2</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"dia_semana"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se maior concentração de acidentes nos finais de semana e na sexta-feira. O sábado apresentou o maior número de ocorrências, com 1.101 acidentes, correspondendo a aproximadamente 16,9% do total. Em seguida, destacam-se a sexta-feira e o domingo, com aproximadamente 16,2% e 16,1% das ocorrências, respectivamente.<br>
+<br>
+Por outro lado, a terça-feira apresentou a menor frequência de acidentes, com 794 registros, correspondendo a cerca de 12,2% das ocorrências.</p>
+<p>Tipo de acidente</p>
+<p>A variável tipo_acidente representa a classificação do acidente registrado.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"tipo_acidente"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: tipo_acidente
+====================
+
+# A tibble: 12 × 3
+   tipo_acidente                    n porcentagem
+   &lt;chr&gt;                        &lt;int&gt;       &lt;dbl&gt;
+ 1 Saída de leito carroçável     1682       25.7 
+ 2 Colisão traseira              1066       16.3 
+ 3 Tombamento                     869       13.3 
+ 4 Colisão lateral                622        9.52
+ 5 Colisão transversal            597        9.13
+ 6 Colisão frontal                543        8.31
+ 7 Queda de ocupante de veículo   312        4.77
+ 8 Capotamento                    264        4.04
+ 9 Atropelamento de Pedestre      223        3.41
+10 Incêndio                       150        2.29
+11 Atropelamento de Animal        125        1.91
+12 Engavetamento                   83        1.27</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot</span>(acidentes,<span class="st">"tipo_acidente"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se predominância de acidentes do tipo saída de leito carroçável, correspondendo a aproximadamente 25% das ocorrências, com 1.682 registros. Em seguida, destacam-se os acidentes do tipo colisão traseira, com 1.066 ocorrências, representando cerca de 16,3% do total.<br>
+<br>
+Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizando apenas 83 ocorrências na base analisada.</p>
+<p>BR</p>
+<p>A variável br representa a rodovia na qual o acidente ocorreu.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes, <span class="st">"br"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+====================
+Variável: br
+====================
+
+# A tibble: 17 × 3
+   br         n porcentagem
+   &lt;chr&gt;  &lt;int&gt;       &lt;dbl&gt;
+ 1 BR-381  1948       29.8 
+ 2 BR-40   1282       19.6 
+ 3 BR-116   851       13.0 
+ 4 BR-262   793       12.1 
+ 5 BR-365   483        7.39
+ 6 BR-50    421        6.44
+ 7 BR-251   201        3.08
+ 8 BR-153   173        2.65
+ 9 BR-267   121        1.85
+10 BR-459    70        1.07
+11 BR-354    65        0.99
+12 BR-356    54        0.83
+13 BR-146    53        0.81
+14 BR-364    15        0.23
+15 BR-NA      4        0.06
+16 BR-265     1        0.02
+17 BR-352     1        0.02</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot</span>(acidentes, <span class="st">"br"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Observa-se que a maior parte dos acidentes ocorreu na BR-381, correspondendo a aproximadamene 30% das ocorrências, com 1948 registros. Já a BR-352 apresenta baixa ocorrência de acidentes, houve apenas uma.</p>
+<p>Município</p>
+<p>A variável município represenda a cidade onde ocorreu o acidente.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_top10</span>(acidentes, <span class="st">"municipio"</span>, <span class="st">"Top 10 Municípios"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Para essa variável, foi utilizado um gráfico com os dez municípios com maior número de ocorrências de acidentes. Com base no gráfico, observa-se que o município com maior quantidade de acidentes é Betim, com 388 ocorrências. Em contraste, o município com menor incidência entre os dez apresentados é Teófilo Otoni, com 98 acidentes.</p>
+</section>
+</section>
+<section id="análise-bivariada" class="level2">
+<h2 class="anchored" data-anchor-id="análise-bivariada">4.2 Análise bivariada</h2>
+</section>
+<section id="análise-temporal" class="level2">
+<h2 class="anchored" data-anchor-id="análise-temporal">4.3 Análise temporal</h2>
+</section>
+<section id="análise-espacial" class="level2">
+<h2 class="anchored" data-anchor-id="análise-espacial">4.4 Análise espacial</h2>
+</section>
+</section>
+<section id="conclusão" class="level1">
+<h1>5 Conclusão</h1>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

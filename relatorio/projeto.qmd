@@ -248,26 +248,6 @@ Para essa variável, foi utilizado um gráfico com os dez municípios com maior 
 
 ## 4.2 Análise bivariada
 
-```{r}
-contar_univariado(acidentes,"periodo" )
-```
-
-```{r}
-contar_univariado(acidentes,"mes" )
-```
-
-```{r}
-contar_univariado(acidentes,"dia_semana" )
-```
-
-```{r}
-contar_univariado(acidentes,"br" )
-```
-
-```{r}
-contar_univariado(acidentes,"municipio" )
-```
-
 ## 4.3 Análise temporal
 
 ## 4.4 Análise espacial
