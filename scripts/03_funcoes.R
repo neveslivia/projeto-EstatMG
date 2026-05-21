@@ -208,3 +208,143 @@ plot_top10 <- function(dados, categoria, titulo = "Top 10") {
     theme(panel.grid.major.y = element_blank())
 }
 
+criar_bivariado_cat <- function(dados, var1, var2){
+  
+  ggplot(
+    dados,
+    aes(
+      x = .data[[var1]],
+      fill = .data[[var2]]
+    )
+  ) +
+    
+    geom_bar(
+      position = "dodge"
+    ) +
+    
+    labs(
+      title = paste(
+        var1,
+        "x",
+        var2
+      ),
+      x = var1,
+      y = "Frequência",
+      fill = var2
+    ) +
+    
+    theme_minimal() +
+    
+    theme(
+      axis.text.x = element_text(
+        angle = 45,
+        hjust = 1
+      )
+    )
+  
+}
+
+criar_boxplot_bivariado <- function(dados, categ, numerica){
+  
+  ggplot(
+    dados,
+    aes(
+      x = .data[[categ]],
+      y = .data[[numerica]]
+    )
+  ) +
+    
+    geom_boxplot(
+      fill = "#5DA5DA"
+    ) +
+    
+    labs(
+      title = paste(
+        numerica,
+        "por",
+        categ
+      ),
+      x = categ,
+      y = numerica
+    ) +
+    
+    theme_minimal()
+  
+}
+criar_grafico_temporal <- function(dados, variavel){
+  
+  dados %>%
+    
+    count(.data[[variavel]]) %>%
+    
+    ggplot(
+      aes(
+        x = .data[[variavel]],
+        y = n,
+        group = 1
+      )
+    ) +
+    
+    geom_line(
+      color = "#5DA5DA",
+      linewidth = 1
+    ) +
+    
+    geom_point(
+      color = "#FAA43A",
+      size = 3
+    ) +
+    
+    labs(
+      title = paste(
+        "Quantidade de acidentes por",
+        variavel
+      ),
+      x = variavel,
+      y = "Quantidade"
+    ) +
+    
+    theme_minimal() +
+    
+    theme(
+      axis.text.x = element_text(
+        angle = 45,
+        hjust = 1
+      )
+    )
+  
+}
+
+criar_barplot_horizontal <- function(dados, variavel){
+  
+  dados %>%
+    
+    count(.data[[variavel]]) %>%
+    
+    ggplot(
+      aes(
+        x = reorder(.data[[variavel]], n),
+        y = n
+      )
+    ) +
+    
+    geom_col(
+      fill = "#5DA5DA"
+    ) +
+    
+    coord_flip() +
+    
+    labs(
+      title = paste(
+        "Distribuição de",
+        variavel
+      ),
+      
+      x = variavel,
+      
+      y = "Frequência"
+    ) +
+    
+    theme_minimal()
+  
+}
