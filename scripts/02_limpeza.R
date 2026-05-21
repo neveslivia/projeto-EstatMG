@@ -1,20 +1,38 @@
+# =========================
+# Verificação de valores ausentes
+# =========================
+
 colSums(is.na(acidentes))
+
 any(is.na(acidentes))
+
 sum(is.na(acidentes))
-colSums(is.na(acidentes))
-acidentes[!complete.cases(acidentes), ]
 
-acidentes$mes <- month(acidentes$data_inversa,
-                       label = TRUE,
-                       abbr = FALSE)
-acidentes$horario_formatado <- 
-  format(acidentes$horario, "%H:%M:%S")
-
-acidentes$hora <- as.numeric(format(acidentes$horario, "%H"))
-
-unique(acidentes$km)
+# Quantidade de valores ausentes em km
+sum(is.na(acidentes$km))
 
 
+# =========================
+# Variáveis temporais
+# =========================
+
+# Criação da variável de mês
+acidentes$mes <- month(
+  acidentes$data_inversa,
+  label = TRUE,
+  abbr = FALSE
+)
+
+# Extração do horário formatado
+acidentes$horario_formatado <- format(
+  acidentes$horario,
+  "%H:%M:%S"
+)
+
+# Extração da hora
+acidentes$hora <- hour(acidentes$horario)
+
+# Classificação dos acidentes por período do dia
 acidentes$periodo <- case_when(
   acidentes$hora >= 5 & acidentes$hora < 12 ~ "Manhã",
   acidentes$hora >= 12 & acidentes$hora < 18 ~ "Tarde",
@@ -22,9 +40,19 @@ acidentes$periodo <- case_when(
   TRUE ~ "Madrugada"
 )
 
+
+# =========================
+# Conversão para fatores ordenados
+# =========================
+
 acidentes$periodo <- factor(
   acidentes$periodo,
-  levels = c("Madrugada", "Manhã", "Tarde", "Noite"),
+  levels = c(
+    "Madrugada",
+    "Manhã",
+    "Tarde",
+    "Noite"
+  ),
   ordered = TRUE
 )
 
@@ -42,11 +70,58 @@ acidentes$dia_semana <- factor(
   ordered = TRUE
 )
 
+
+# =========================
+# Padronização das rodovias
+# =========================
+
 acidentes$br <- gsub("\\.0", "", acidentes$br)
 
 acidentes$br <- paste0("BR-", acidentes$br)
 
+
+# =========================
+# Conversão do KM
+# =========================
+
+acidentes$km <- trimws(acidentes$km)
+
+acidentes$km[acidentes$km == "NA"] <- NA
+
 acidentes$km <- as.numeric(acidentes$km)
 
+# Verificar quantidade de NA
+sum(is.na(acidentes$km))
+
+# =========================
+# Reorganização das colunas
+# =========================
+
 acidentes <- acidentes %>%
-  relocate(horario,horario_formatado,hora, periodo,fase_dia,mes, .after = data_inversa)
+  relocate(
+    horario,
+    horario_formatado,
+    hora,
+    periodo,
+    fase_dia,
+    mes,
+    .after = data_inversa
+  )
+
+
+# =========================
+# Verificação de consistência
+# =========================
+
+verificacao_feridos <- all(
+  acidentes$feridos ==
+    acidentes$feridos_leves +
+    acidentes$feridos_graves
+)
+
+
+# =========================
+# Estrutura final da base
+# =========================
+
+glimpse(acidentes)
