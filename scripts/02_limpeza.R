@@ -1,6 +1,4 @@
-# =========================
-# Verificação de valores ausentes
-# =========================
+
 
 colSums(is.na(acidentes))
 
@@ -8,31 +6,25 @@ any(is.na(acidentes))
 
 sum(is.na(acidentes))
 
-# Quantidade de valores ausentes em km
 sum(is.na(acidentes$km))
 
 
-# =========================
-# Variáveis temporais
-# =========================
 
-# Criação da variável de mês
+
+
 acidentes$mes <- month(
   acidentes$data_inversa,
   label = TRUE,
   abbr = FALSE
 )
 
-# Extração do horário formatado
 acidentes$horario_formatado <- format(
   acidentes$horario,
   "%H:%M:%S"
 )
 
-# Extração da hora
 acidentes$hora <- hour(acidentes$horario)
 
-# Classificação dos acidentes por período do dia
 acidentes$periodo <- case_when(
   acidentes$hora >= 5 & acidentes$hora < 12 ~ "Manhã",
   acidentes$hora >= 12 & acidentes$hora < 18 ~ "Tarde",
@@ -41,9 +33,7 @@ acidentes$periodo <- case_when(
 )
 
 
-# =========================
-# Conversão para fatores ordenados
-# =========================
+
 
 acidentes$periodo <- factor(
   acidentes$periodo,
@@ -71,18 +61,13 @@ acidentes$dia_semana <- factor(
 )
 
 
-# =========================
-# Padronização das rodovias
-# =========================
 
 acidentes$br <- gsub("\\.0", "", acidentes$br)
 
 acidentes$br <- paste0("BR-", acidentes$br)
 
 
-# =========================
-# Conversão do KM
-# =========================
+
 
 acidentes$km <- trimws(acidentes$km)
 
@@ -90,12 +75,8 @@ acidentes$km[acidentes$km == "NA"] <- NA
 
 acidentes$km <- as.numeric(acidentes$km)
 
-# Verificar quantidade de NA
 sum(is.na(acidentes$km))
 
-# =========================
-# Reorganização das colunas
-# =========================
 
 acidentes <- acidentes %>%
   relocate(
@@ -109,10 +90,6 @@ acidentes <- acidentes %>%
   )
 
 
-# =========================
-# Verificação de consistência
-# =========================
-
 verificacao_feridos <- all(
   acidentes$feridos ==
     acidentes$feridos_leves +
@@ -120,8 +97,21 @@ verificacao_feridos <- all(
 )
 
 
-# =========================
-# Estrutura final da base
-# =========================
 
 glimpse(acidentes)
+
+count(acidentes, tipo_acidente, sort = TRUE)
+
+top10_acidentes <- acidentes %>%
+  
+  count(tipo_acidente, sort = TRUE) %>%
+  
+  slice_head(n = 10)
+
+
+
+acidentes_top10 <- acidentes %>%
+  
+  filter(
+    tipo_acidente %in% top10_acidentes$tipo_acidente
+  )

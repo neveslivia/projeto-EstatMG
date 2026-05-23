@@ -23,13 +23,72 @@ Além disso, o projeto busca explorar relações entre fatores como período do 
 
 # 2 Base de dados
 
-```{r}
-
-```
-
 ## 2.1 Estrutura da base
 
+A base de dados utilizada contém informações dos acidentes ocorridos nas rodovias federais de Minas Gerais no ano de 2020. Após o carregamento de dados, verificou-se a presença de 6536 observações e 21 variáveis, contendo informações dos acidentes, vítimas, características da rodovia e condições ambientais
+
+```{r}
+dim(acidentes)
+glimpse(acidentes)
+```
+
 ## 2.2 Classificação de variáveis
+
+As varíaveis da base foram separadas de acordo com sua característica estatística.
+
+As variáveis qualitativas descrevem categorias e não podem ser medidas numericamente e geralmente são representadas por porcentagens ou contagens.
+
+### 2.2.1 Ordinal
+
+- data_inversa
+
+- dia_semana
+
+- fase_dia
+
+### 2.2.2 Nominal
+
+- município
+
+- tipo_acidente
+
+- condicao_metereologica
+
+- tipo_pista
+
+- uf
+
+- br
+
+- id
+
+As variáveis quantitativas representam dados que podem ser medidos ou quantificados numericamente.
+
+### 2.2.1 Contínuas
+
+- latitude
+
+- longitude
+
+- horario
+
+- km
+
+### 2.2.2 Discretas
+
+- pessoas
+
+- feridos
+
+- feridos_leves
+
+- feridos_graves
+
+- veiculos
+
+- mortos
+
+- ilesos
 
 # 3 Limpeza e tratamento de dados
 
@@ -37,26 +96,67 @@ Além disso, o projeto busca explorar relações entre fatores como período do 
 
 ```{r}
 
+colSums(is.na(acidentes))
 
+any(is.na(acidentes))
+
+sum(is.na(acidentes))
+
+sum(is.na(acidentes$km))
 ```
+
+Foi realizada a verificação de valores ausentes na base de dados utilizando funções de contagem de NA. Observou-se a presença de poucos valores ausentes na variável km. Após investigação, verificou-se que esses valores já estavam originalmente ausentes na base de dados, não sendo gerados durante o processo de transformação das variáveis.
 
 ## 3.2 Padronização das variáveis
 
+A variável `br` foi modificada, removendo-se o sufixo `.0` e adicionando-se o prefixo `BR-`, com o objetivo de melhorar a padronização textual.
+
+A variável `mes` foi elaborada a partir de `data_inversa`, visando simplificar a criação de gráficos e análises temporais.
+
+A variável `horario_formatado` foi criada porque a variável original `horario` continha inconsistências relacionadas ao formato entre data e hora, sendo extraída apenas a informação referente ao horário.
+
+A variável `hora` originou-se da variável `horario`, com a finalidade de facilitar a legibilidade dos gráficos e análises, uma vez que a representação em valores inteiros torna a visualização mais simples.
+
+A variável `periodo` foi derivada da variável `hora` com o objetivo de consolidar a variável `fase_dia`, pois esta apresentava categorias muito fragmentadas, o que dificultaria as análises temporais.
+
 ## 3.3 Variáveis temporais
+
+Foram criadas variáveis temporais derivadas das já existentes no banco de dados, com a finalidade de melhorar a legibilidade e facilitar a interpretação dos dados ao longo do tempo.
 
 ## 3.4 Transformação de variáveis
 
-A variável fase_dia não foi utilizada nas análises exploratórias, pois apresenta informações semelhantes à variável periodo, criada durante a etapa de tratamento dos dados.
+A variável `fase_dia` não foi utilizada nas análises exploratórias, pois apresenta informações semelhantes à variável `periodo`, criada durante a etapa de tratamento dos dados.
 
-A variável periodo foi construída a partir da variável hora, permitindo uma categorização mais padronizada dos horários dos acidentes em madrugada, manhã, tarde e noite.
+A variável `periodo` foi construída a partir da variável `hora`, permitindo uma categorização mais padronizada dos horários dos acidentes em madrugada, manhã, tarde e noite.
 
-Dessa forma, optou-se por utilizar apenas a variável periodo nas análises posteriores, evitando redundância nas interpretações.
+Dessa forma, optou-se por utilizar apenas a variável `periodo` nas análises posteriores, evitando redundância nas interpretações.
+
+Algumas variáveis passaram por transformações para adequação às análises estatísticas. Para melhorar a visualização dos gráficos bivariados envolvendo tipo de acidente, foram selecionados apenas os dez tipos de acidentes com maior frequência de ocorrência, reduzindo a poluição visual e facilitando a interpretação dos resultados.
 
 ## 3.5 Verificação de consistência
 
+```{r}
+verificacao_feridos <- all(
+  acidentes$feridos ==
+    acidentes$feridos_leves +
+    acidentes$feridos_graves
+)
+verificacao_feridos
+```
+
+Também foi realizada uma verificação de consistência entre variáveis relacionadas. Observou-se que a variável feridos corresponde corretamente à soma entre feridos leves e feridos graves, indicando coerência interna nos registros da base.
+
 # 4 Análise exploratória
 
+A análise exploratória de dados tem como objetivo compreender o comportamento das variáveis, identificar padrões, valores extremos (outliers) e possíveis relações entre os dados.
+
+Nesta etapa, foram realizadas análises univariadas e bivariadas, utilizando medidas estatísticas e gráficos para facilitar a interpretação dos acidentes registrados nas rodovias de Minas Gerais.
+
 ## 4.1 Análise univariada
+
+A análise univariada busca estudar cada variável individualmente, permitindo observar sua distribuição, frequência e concentração dos valores.
+
+Para as variáveis numéricas, foram utilizadas medidas descritivas, gráficos de barras e boxplots. Já para as variáveis categóricas, foram utilizadas tabelas de frequência e gráficos de barras.
 
 ### 4.1.1 Váriáveis numéricas
 
@@ -248,42 +348,115 @@ Para essa variável, foi utilizado um gráfico com os dez municípios com maior 
 
 ## 4.2 Análise bivariada
 
-```{r}
-criar_grafico_temporal(acidentes, "mes")
-```
+A análise bivariada teve como objetivo investigar relações entre duas variáveis, buscando identificar possíveis associações e padrões nos acidentes.
+
+Foram realizados cruzamentos entre variáveis como tipo de acidente, condição meteorológica, tipo de pista e período do dia, utilizando gráficos comparativos para auxiliar na interpretação dos resultados.
 
 ```{r}
-criar_barplot(
-  acidentes,
-  "dia_semana"
-)
+criar_bivariado_cat(acidentes_top10,"tipo_pista","tipo_acidente")
 ```
 
-```{r}
-criar_barplot(acidentes,"periodo")
-```
+Ao analisar a relação entre tipo de pista e tipo de acidente, observa-se que nas pistas duplas os acidentes mais frequentes são saída de leito carroçável e colisão traseira. Já a colisão frontal apresenta baixa incidência nesse tipo de pista.
+
+Nas pistas múltiplas, a quantidade total de acidentes é significativamente menor em comparação aos demais tipos de pista. Entretanto, dentre os acidentes registrados, a colisão traseira aparece como a ocorrência mais frequente.
+
+Em relação às pistas simples, nota-se maior concentração de acidentes do tipo saída de leito carroçável. Em seguida, destacam-se colisão frontal, colisão transversal e tombamento, indicando maior variedade e frequência de acidentes nesse tipo de pista. Além disso, colisão lateral e colisão traseira apresentaram menor incidência em comparação às demais categorias.
+
+De forma geral, percebe-se que as pistas simples concentram a maior quantidade de acidentes e apresentam maior diversidade nos tipos de ocorrência registrados.
 
 ```{r}
-criar_bivariado_cat(acidentes,"tipo_pista","tipo_acidente")
+criar_bivariado_cat(acidentes_top10,"condicao_metereologica","tipo_acidente")
 ```
 
-```{r}
-criar_bivariado_cat(acidentes,"condicao_metereologica","tipo_acidente")
-```
+Ao analisar a relação entre condição meteorológica e tipo de acidente, observa-se que a maior parte dos acidentes ocorreu em situações de céu claro. Nessa condição, o acidente mais frequente é saída de leito carroçável, seguido por colisão traseira e tombamento. As demais categorias, como colisão lateral, colisão frontal e colisão transversal, apresentam incidências menores.
+
+Em situações de chuva, destaca-se de forma significativa a ocorrência de saída de leito carroçável, apresentando frequência muito superior às demais categorias de acidentes. Em segundo lugar aparece a colisão frontal, porém com quantidade consideravelmente inferior.
+
+Quando a condição meteorológica é de céu nublado, novamente a saída de leito carroçável representa a principal ocorrência. Em seguida aparecem colisão traseira e tombamento, com frequências próximas entre si. Já as demais categorias apresentam incidências mais baixas.
+
+Por fim, em condições de nevoeiro ou neblina, observa-se quantidade bastante reduzida de acidentes registrados.
 
 ```{r}
 criar_boxplot_bivariado(acidentes,"periodo","mortos")
 ```
 
+Ao analisar a relação entre período do dia e quantidade de mortes, observa-se que a mediana é igual a zero em todos os períodos, indicando que a maior parte dos acidentes não apresentou vítimas fatais.
+
+Entretanto, os boxplots evidenciam a presença de valores extremos (outliers) em todos os períodos do dia, demonstrando que existem ocorrências menos frequentes com elevado número de mortes.
+
+O período da madrugada apresentou o maior valor extremo observado, com aproximadamente 12 mortes em um único acidente, indicando maior gravidade em algumas ocorrências registradas nesse horário.
+
+Além disso, o período da noite apresentou maior concentração de outliers em comparação aos demais períodos, com valores entre aproximadamente 7 e 10 mortes. Já os períodos da manhã e da tarde apresentaram distribuições semelhantes, com valores extremos mais baixos, próximos de cinco mortes.
+
 ```{r}
 criar_boxplot_bivariado(acidentes,"tipo_pista","mortos")
 ```
+
+Ao analisar a relação entre tipo de pista e quantidade de mortes, observa-se que a mediana é igual a zero para todos os tipos de pista, indicando que a maior parte dos acidentes registrados não apresentou vítimas fatais.
+
+Entretanto, os boxplots evidenciam a presença de valores extremos (outliers), representando acidentes com maior número de mortes. A pista simples foi o tipo de pista que apresentou os maiores valores extremos, além da maior quantidade de outliers, indicando maior ocorrência de acidentes graves nesse tipo de via. O maior valor observado foi de aproximadamente 12 mortes em um único acidente.
+
+Já a pista dupla apresentou menor quantidade de outliers em comparação à pista simples, com valores máximos próximos de duas mortes. A pista múltipla foi a que apresentou menor quantidade de valores extremos, contendo apenas um outlier com valor relativamente baixo, entre uma e duas mortes.
+
+De forma geral, percebe-se que os acidentes em pistas simples tendem a apresentar maior gravidade quando comparados aos demais tipos de pista.
 
 ```{r}
 criar_barplot_horizontal(acidentes,"br")
 ```
 
+Ao analisar a distribuição de acidentes por BR, observa-se que a BR-381 apresenta, de forma disparada, a maior quantidade de ocorrências registradas no conjunto de dados. Esse resultado indica elevada concentração de acidentes nessa rodovia em comparação às demais.
+
+Em seguida, destaca-se a BR-040 como a segunda rodovia com maior número de acidentes. Já as BRs 116 e 262 apresentam quantidades semelhantes de ocorrências, com valores próximos entre si.
+
+De forma geral, percebe-se que a BR-381 concentra significativamente mais acidentes do que as outras rodovias analisadas, evidenciando sua relevância dentro do cenário de acidentes nas rodovias de Minas Gerais.
+
+```{r}
+criar_bivariado_empilhado(acidentes,"periodo","tipo_acidente")
+```
+
+A análise bivariada entre `periodo` e `tipo_acidente` permite observar como os diferentes tipos de acidentes se distribuem ao longo dos períodos do dia. De forma geral, percebe-se que o tipo de acidente mais frequente em todos os períodos é a saída de leito carroçável, indicando que esse padrão se mantém independentemente do horário analisado.
+
+Durante a madrugada, observa-se uma concentração mais acentuada de acidentes por saída de leito carroçável, representando mais de 25% dos acidentes registrados nesse período. Em seguida, destaca-se a colisão traseira. Já os acidentes menos frequentes durante a madrugada correspondem aos atropelamentos de animais.
+
+No período da manhã, novamente predominam os acidentes por saída de leito carroçável, seguidos pelas colisões traseiras e pelos tombamentos. Esse comportamento indica certa continuidade do padrão observado na madrugada, embora com distribuição um pouco menos concentrada.
+
+Durante a tarde, a saída de leito carroçável continua sendo o tipo de acidente mais incidente, seguida pelas colisões traseiras e colisões transversais. As demais categorias, como capotamento, colisão lateral e tombamento, apresentam frequências relativamente semelhantes, enquanto o atropelamento de animais permanece entre os menos frequentes.
+
+No período da noite, observa-se uma distribuição mais equilibrada entre os tipos de acidentes. A saída de leito carroçável ainda aparece como a principal ocorrência, porém praticamente empatada com as colisões traseiras, indicando uma menor concentração em um único tipo de acidente quando comparado aos demais períodos do dia.
+
 ## 4.3 Análise temporal
+
+```{r}
+criar_grafico_temporal(acidentes, "mes")
+```
+
+Ao analisar a distribuição temporal dos acidentes ao longo dos meses do ano, observa-se que o mês de dezembro apresenta a maior quantidade de ocorrências registradas, indicando um pico significativo no número de acidentes nesse período. Em seguida, destaca-se o mês de outubro como o segundo com maior incidência de acidentes. Os meses de setembro e janeiro também apresentam valores elevados e bastante próximos entre si.
+
+Por outro lado, o mês de abril apresenta a menor quantidade de acidentes registrados, representando o ponto de menor incidência ao longo do ano.
+
+Observando o comportamento temporal da série, percebe-se uma redução gradual no número de acidentes entre janeiro e abril, período em que é atingido o menor valor observado. A partir de maio ocorre uma elevação significativa nas ocorrências, seguida por certa estabilidade entre maio e junho.
+
+Entre julho e agosto observa-se um novo aumento mais acentuado na quantidade de acidentes, enquanto entre agosto, setembro e outubro o crescimento continua de forma mais moderada. Já entre outubro e novembro ocorre uma queda significativa nas ocorrências, seguida por um novo aumento expressivo em dezembro, mês que concentra o maior número de acidentes registrados.
+
+```{r}
+criar_barplot(acidentes,"dia_semana")
+```
+
+Ao analisar a distribuição de acidentes por dia da semana, observa-se que o sábado apresenta a maior quantidade de ocorrências registradas, sendo o dia com maior incidência de acidentes. Em seguida, destacam-se a sexta-feira e o domingo, que apresentam valores bastante próximos, embora a sexta-feira possua quantidade ligeiramente superior.
+
+Dessa forma, percebe-se que os acidentes se concentram principalmente no período correspondente ao final de semana, especialmente entre sexta-feira, sábado e domingo.
+
+Já nos demais dias da semana, segunda-feira, quinta-feira, quarta-feira e terça-feira apresentam quantidades relativamente semelhantes de acidentes, com menor variação entre si. Entre esses dias, a terça-feira corresponde ao menor número de ocorrências registradas.
+
+De maneira geral, a ordem dos dias com maior incidência de acidentes, do mais frequente para o menos frequente, é: sábado, sexta-feira, domingo, segunda-feira, quinta-feira, quarta-feira e terça-feira.
+
+```{r}
+criar_barplot(acidentes,"periodo")
+```
+
+A maior incidência de acidentes ocorre no período da tarde, seguido pelo período da manhã. Em seguida, observa-se uma redução no período da noite, enquanto a madrugada apresenta a menor quantidade de registros.
+
+Nota-se uma diferença bastante expressiva entre a tarde e a madrugada, evidenciando uma concentração de acidentes no período vespertino. A diferença entre tarde e manhã, embora existente, é menos acentuada. Já entre manhã e noite, a variação é moderada e semelhante à observada entre noite e madrugada. Em síntese, o período da tarde se destaca como o de maior ocorrência de acidentes, enquanto a madrugada apresenta os menores índices.
 
 ## 4.4 Análise espacial
 

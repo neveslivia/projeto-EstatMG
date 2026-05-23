@@ -1,38 +1,110 @@
 library(ggplot2)
+library(dplyr)
 
-# =========================
-# BOXPLOT
-# =========================
-criar_boxplot <- function(dados, variavel){
+
+cor_principal <- "#355070"
+cor_secundaria <- "#6D597A"
+cor_destaque <- "#B56576"
+cor_outlier <- "#C94C4C"
+
+paleta_bivariada <- c(
+  "#355070",
+  "#4F5D75",
+  "#6D597A",
+  "#8E6C88",
+  "#B56576",
+  "#D17A88",
+  "#E56B6F",
+  "#EAAC8B",
+  "#7F5539",
+  "#9C6644",
+  "#B08968",
+  "#D4A373"
+)
+
+
+
+arrumar_nome <- function(texto){
   
-  ggplot(
-    dados,
-    aes(x = .data[[variavel]])
-  ) +
-    
-    geom_boxplot(
-      fill = "#FAA43A",
-      width = 0.3
-    ) +
-    
-    labs(
-      title = paste(
-        "Boxplot de",
-        variavel
-      ),
-      
-      x = variavel
-    ) +
-    
-    theme_minimal()
+  texto <- gsub("_", " ", texto)
+  
+  texto <- tools::toTitleCase(texto)
+  
+  return(texto)
   
 }
 
-# =========================
-# HISTOGRAMA
-# =========================
+
+
+tema_projeto <- function(){
+  
+  theme_classic() +
+    
+    theme(
+      
+      plot.title = element_text(
+        size = 14,
+        face = "bold",
+        hjust = 0.5,
+        margin = margin(b = 12)
+      ),
+      
+      axis.title = element_text(
+        size = 11
+      ),
+      
+      axis.text = element_text(
+        size = 10,
+        color = "black"
+      ),
+      
+      legend.position = "bottom",
+      
+      legend.title = element_text(
+        face = "bold"
+      ),
+      
+      panel.border = element_blank(),
+      
+      plot.margin = margin(
+        15, 15, 15, 15
+      )
+      
+    )
+  
+}
+
+
+criar_boxplot <- function(dados, variavel){
+  
+  nome <- arrumar_nome(variavel)
+  
+  ggplot(
+    dados,
+    aes(x = "", y = .data[[variavel]])
+  ) +
+    
+    geom_boxplot(
+      fill = cor_principal,
+      width = 0.3,
+      outlier.color = cor_outlier,
+      alpha = 0.85
+    ) +
+    
+    labs(
+      title = paste("Boxplot de", nome),
+      x = NULL,
+      y = nome
+    ) +
+    
+    tema_projeto()
+  
+}
+
 
 criar_histograma <- function(dados, variavel){
+  
+  nome <- arrumar_nome(variavel)
   
   ggplot(
     dados,
@@ -41,32 +113,25 @@ criar_histograma <- function(dados, variavel){
     
     geom_histogram(
       binwidth = 1,
-      
-      fill = "#5DA5DA",
-      
+      fill = cor_principal,
       color = "white"
     ) +
     
     labs(
-      title = paste(
-        "Histograma de",
-        variavel
-      ),
-      
-      x = variavel,
-      
+      title = paste("Histograma de", nome),
+      x = nome,
       y = "Frequência"
     ) +
     
-    theme_minimal()
+    tema_projeto()
   
 }
 
-# =========================
-# BARRAS NUMÉRICAS
-# =========================
+
 
 criar_barplot_numerico <- function(dados, variavel){
+  
+  nome <- arrumar_nome(variavel)
   
   ggplot(
     dados,
@@ -74,27 +139,20 @@ criar_barplot_numerico <- function(dados, variavel){
   ) +
     
     geom_bar(
-      fill = "#60BD68"
+      fill = cor_principal,
+      width = 0.7
     ) +
     
     labs(
-      title = paste(
-        "Distribuição de",
-        variavel
-      ),
-      
-      x = variavel,
-      
+      title = paste("Distribuição de", nome),
+      x = nome,
       y = "Frequência"
     ) +
     
-    theme_minimal()
+    tema_projeto()
   
 }
 
-# =========================
-# ANÁLISE NUMÉRICA
-# =========================
 
 analise_numerica <- function(dados, variavel){
   
@@ -130,9 +188,6 @@ analise_numerica <- function(dados, variavel){
   
 }
 
-# =========================
-# ANÁLISE CATEGÓRICA
-# =========================
 analise_categorica <- function(dados, variavel){
   
   frequencia <- dados %>%
@@ -156,7 +211,11 @@ analise_categorica <- function(dados, variavel){
   
 }
 
+
+
 criar_barplot <- function(dados, variavel){
+  
+  nome <- arrumar_nome(variavel)
   
   ggplot(
     dados,
@@ -170,20 +229,16 @@ criar_barplot <- function(dados, variavel){
   ) +
     
     geom_bar(
-      fill = "#5DA5DA"
+      fill = cor_principal
     ) +
     
     labs(
-      title = paste(
-        "Frequência de",
-        variavel
-      ),
-      
+      title = paste("Frequência de", nome),
       x = "Quantidade",
-      y = variavel
+      y = nome
     ) +
     
-    theme_minimal()
+    tema_projeto()
   
 }
 
@@ -192,59 +247,50 @@ criar_barplot <- function(dados, variavel){
 plot_top10 <- function(dados, categoria, titulo = "Top 10") {
   
   top10 <- dados %>%
-    group_by(.data[[categoria]]) %>%
-    summarise(valor = n()) %>%   # <- conta ocorrências
-    slice_max(valor, n = 10) %>%
-    arrange(valor)
-  
-  top10[[categoria]] <- factor(top10[[categoria]], levels = top10[[categoria]])
-  
-  ggplot(top10, aes(x = .data[[categoria]], y = valor)) +
-    geom_col(fill = "steelblue") +
-    coord_flip() +
-    geom_text(aes(label = valor), hjust = -0.1, size = 3.5) +
-    labs(title = titulo, x = categoria, y = "Quantidade") +
-    theme_minimal() +
-    theme(panel.grid.major.y = element_blank())
-}
-
-criar_bivariado_cat <- function(dados, var1, var2){
+    
+    count(.data[[categoria]]) %>%
+    
+    slice_max(n, n = 10) %>%
+    
+    arrange(n)
   
   ggplot(
-    dados,
+    top10,
     aes(
-      x = .data[[var1]],
-      fill = .data[[var2]]
+      y = reorder(.data[[categoria]], n),
+      x = n
     )
   ) +
     
-    geom_bar(
-      position = "dodge"
+    geom_col(
+      fill = cor_principal,
+      width = 0.7
+    ) +
+    
+    geom_text(
+      aes(label = n),
+      hjust = -0.15,
+      size = 3.5
     ) +
     
     labs(
-      title = paste(
-        var1,
-        "x",
-        var2
-      ),
-      x = var1,
-      y = "Frequência",
-      fill = var2
+      title = titulo,
+      x = "Quantidade",
+      y = NULL
     ) +
     
-    theme_minimal() +
-    
-    theme(
-      axis.text.x = element_text(
-        angle = 45,
-        hjust = 1
-      )
-    )
+    tema_projeto()
   
 }
 
+
+
+
+
 criar_boxplot_bivariado <- function(dados, categ, numerica){
+  
+  nome1 <- arrumar_nome(categ)
+  nome2 <- arrumar_nome(numerica)
   
   ggplot(
     dados,
@@ -255,23 +301,25 @@ criar_boxplot_bivariado <- function(dados, categ, numerica){
   ) +
     
     geom_boxplot(
-      fill = "#5DA5DA"
+      fill = cor_principal,
+      alpha = 0.85,
+      outlier.color = cor_outlier
     ) +
     
     labs(
-      title = paste(
-        numerica,
-        "por",
-        categ
-      ),
-      x = categ,
-      y = numerica
+      title = paste(nome2, "por", nome1),
+      x = nome1,
+      y = nome2
     ) +
     
-    theme_minimal()
+    tema_projeto()
   
 }
+
+
 criar_grafico_temporal <- function(dados, variavel){
+  
+  nome <- arrumar_nome(variavel)
   
   dados %>%
     
@@ -286,36 +334,37 @@ criar_grafico_temporal <- function(dados, variavel){
     ) +
     
     geom_line(
-      color = "#5DA5DA",
+      color = cor_principal,
       linewidth = 1
     ) +
     
     geom_point(
-      color = "#FAA43A",
+      color = cor_principal,
       size = 3
     ) +
     
     labs(
-      title = paste(
-        "Quantidade de acidentes por",
-        variavel
-      ),
-      x = variavel,
+      title = paste("Acidentes por", nome),
+      x = nome,
       y = "Quantidade"
     ) +
     
-    theme_minimal() +
+    tema_projeto() +
     
     theme(
       axis.text.x = element_text(
-        angle = 45,
+        angle = 30,
         hjust = 1
       )
     )
   
 }
 
+
+
 criar_barplot_horizontal <- function(dados, variavel){
+  
+  nome <- arrumar_nome(variavel)
   
   dados %>%
     
@@ -323,28 +372,181 @@ criar_barplot_horizontal <- function(dados, variavel){
     
     ggplot(
       aes(
-        x = reorder(.data[[variavel]], n),
-        y = n
+        y = reorder(.data[[variavel]], n),
+        x = n
       )
     ) +
     
     geom_col(
-      fill = "#5DA5DA"
+      fill = cor_principal,
+      width = 0.7
     ) +
-    
-    coord_flip() +
     
     labs(
-      title = paste(
-        "Distribuição de",
-        variavel
-      ),
-      
-      x = variavel,
-      
-      y = "Frequência"
+      title = paste("Distribuição de", nome),
+      x = "Quantidade",
+      y = NULL
     ) +
     
-    theme_minimal()
+    tema_projeto()
+  
+}
+
+
+
+acidentes_top <- acidentes %>%
+  
+  filter(
+    tipo_acidente %in% c(
+      "Saída de leito carroçável",
+      "Colisão traseira",
+      "Tombamento",
+      "Colisão lateral",
+      "Capotamento"
+    )
+  )
+
+
+
+paleta_projeto <- c(
+  "#355070",
+  "#6D597A",
+  "#B56576",
+  "#E56B6F",
+  "#EAAC8B",
+  "#5E548E",
+  "#9F86C0",
+  "#7B2CBF",
+  "#C77DFF",
+  "#F4A261",
+  "#2A9D8F",
+  "#264653",
+  "#8AB17D",
+  "#A44A3F",
+  "#577590"
+)
+
+criar_bivariado_empilhado <- function(dados, var1, var2){
+  
+  nome1 <- arrumar_nome(var1)
+  nome2 <- arrumar_nome(var2)
+  
+  ggplot(
+    dados,
+    aes(
+      x = .data[[var1]],
+      fill = .data[[var2]]
+    )
+  ) +
+    
+    geom_bar(
+      position = "fill",
+      width = 0.75
+    ) +
+    
+    scale_y_continuous(
+      labels = scales::percent
+    ) +
+    
+    scale_fill_manual(
+      values = paleta_projeto
+    ) +
+    
+    guides(
+      fill = guide_legend(
+        nrow = 4
+      )
+    ) +
+    
+    labs(
+      title = paste(nome1, "por", nome2),
+      x = nome1,
+      y = "Proporção",
+      fill = nome2
+    ) +
+    
+    tema_projeto() +
+    
+    theme(
+      
+      axis.text.x = element_text(
+        angle = 20,
+        hjust = 1
+      ),
+      
+      legend.position = "bottom",
+      
+      legend.title = element_text(
+        size = 10,
+        face = "bold"
+      ),
+      
+      legend.text = element_text(
+        size = 8
+      ),
+      
+      legend.box = "vertical"
+      
+    )
+  
+}
+criar_bivariado_cat <- function(dados, var1, var2){
+  
+  nome1 <- arrumar_nome(var1)
+  nome2 <- arrumar_nome(var2)
+  
+  ggplot(
+    dados,
+    aes(
+      x = .data[[var1]],
+      fill = .data[[var2]]
+    )
+  ) +
+    
+    geom_bar(
+      position = "dodge",
+      width = 0.7
+    ) +
+    
+    scale_fill_manual(
+      values = paleta_projeto
+    ) +
+    
+    guides(
+      fill = guide_legend(
+        nrow = 4
+      )
+    ) +
+    
+    labs(
+      title = paste(nome1, "por", nome2),
+      x = nome1,
+      y = "Quantidade",
+      fill = nome2
+    ) +
+    
+    tema_projeto() +
+    
+    theme(
+      
+      axis.text.x = element_text(
+        angle = 20,
+        hjust = 1
+      ),
+      
+      legend.position = "bottom",
+      
+      legend.title = element_text(
+        size = 10,
+        face = "bold"
+      ),
+      
+      legend.text = element_text(
+        size = 8
+      ),
+      
+      legend.box = "vertical"
+      
+    )
   
 }
