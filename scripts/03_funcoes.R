@@ -156,62 +156,70 @@ criar_barplot_numerico <- function(dados, variavel){
 
 analise_numerica <- function(dados, variavel){
   
-  cat("\n====================\n")
-  cat("Variável:", variavel)
-  cat("\n====================\n\n")
-  
-  print(
-    summary(
-      dados[[variavel]]
+  tabela <- data.frame(
+    
+    Medida = c(
+      "Mínimo",
+      "1º Quartil",
+      "Mediana",
+      "Média",
+      "3º Quartil",
+      "Máximo",
+      "Desvio Padrão",
+      "Variância"
+    ),
+    
+    Valor = c(
+      min(dados[[variavel]], na.rm = TRUE),
+      quantile(dados[[variavel]], 0.25, na.rm = TRUE),
+      median(dados[[variavel]], na.rm = TRUE),
+      mean(dados[[variavel]], na.rm = TRUE),
+      quantile(dados[[variavel]], 0.75, na.rm = TRUE),
+      max(dados[[variavel]], na.rm = TRUE),
+      sd(dados[[variavel]], na.rm = TRUE),
+      var(dados[[variavel]], na.rm = TRUE)
     )
+    
   )
   
-  cat("\n")
-  
-  cat(
-    "Desvio padrão:",
-    sd(
-      dados[[variavel]],
-      na.rm = TRUE
-    )
-  )
-  
-  cat("\n")
-  
-  cat(
-    "Variância:",
-    var(
-      dados[[variavel]],
-      na.rm = TRUE
-    )
+  knitr::kable(
+    tabela,
+    caption = paste(
+      "Resumo estatístico de",
+      arrumar_nome(variavel)
+    ),
+    digits = 2
   )
   
 }
-
 analise_categorica <- function(dados, variavel){
   
-  frequencia <- dados %>%
+  tabela <- dados %>%
     
     count(.data[[variavel]]) %>%
     
     mutate(
-      porcentagem = round(
+      Porcentagem = round(
         n / sum(n) * 100,
         2
       )
-    ) %>%
-    
-    arrange(desc(n))
+    )
   
-  cat("\n====================\n")
-  cat("Variável:", variavel)
-  cat("\n====================\n\n")
+  colnames(tabela) <- c(
+    arrumar_nome(variavel),
+    "Frequência",
+    "Porcentagem (%)"
+  )
   
-  print(frequencia)
+  knitr::kable(
+    tabela,
+    caption = paste(
+      "Distribuição de",
+      arrumar_nome(variavel)
+    )
+  )
   
 }
-
-
 
 criar_barplot <- function(dados, variavel){
   

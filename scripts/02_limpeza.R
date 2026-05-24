@@ -60,11 +60,15 @@ acidentes$dia_semana <- factor(
   ordered = TRUE
 )
 
-
-
 acidentes$br <- gsub("\\.0", "", acidentes$br)
 
+acidentes$br <- gsub("BR-", "", acidentes$br)
+
+acidentes$br <- trimws(acidentes$br)
+
 acidentes$br <- paste0("BR-", acidentes$br)
+
+acidentes$br[acidentes$br == "BR-NA"] <- NA
 
 
 

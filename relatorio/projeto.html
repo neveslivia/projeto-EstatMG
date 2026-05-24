@@ -118,68 +118,216 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>2 Base de dados</h1>
 <section id="estrutura-da-base" class="level2">
 <h2 class="anchored" data-anchor-id="estrutura-da-base">2.1 Estrutura da base</h2>
+<p>A base de dados utilizada contém informações dos acidentes ocorridos nas rodovias federais de Minas Gerais no ano de 2020. Após o carregamento de dados, verificou-se a presença de 6536 observações e 21 variáveis, contendo informações dos acidentes, vítimas, características da rodovia e condições ambientais</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                                     Variavel    Classe
+id                                         id   numeric
+data_inversa                     data_inversa   POSIXct
+horario                               horario   POSIXct
+horario_formatado           horario_formatado character
+hora                                     hora   integer
+periodo                               periodo   ordered
+fase_dia                             fase_dia character
+mes                                       mes   ordered
+dia_semana                         dia_semana   ordered
+uf                                         uf character
+br                                         br character
+km                                         km   numeric
+municipio                           municipio character
+tipo_acidente                   tipo_acidente character
+condicao_metereologica condicao_metereologica character
+tipo_pista                         tipo_pista character
+pessoas                               pessoas   numeric
+mortos                                 mortos   numeric
+feridos_leves                   feridos_leves   numeric
+feridos_graves                 feridos_graves   numeric
+ilesos                                 ilesos   numeric
+feridos                               feridos   numeric
+veiculos                             veiculos   numeric
+latitude                             latitude   numeric
+longitude                           longitude   numeric</code></pre>
+</div>
+</div>
 </section>
 <section id="classificação-de-variáveis" class="level2">
 <h2 class="anchored" data-anchor-id="classificação-de-variáveis">2.2 Classificação de variáveis</h2>
+<p>As varíaveis da base foram separadas de acordo com sua característica estatística.</p>
+<p>As variáveis qualitativas descrevem categorias e não podem ser medidas numericamente e geralmente são representadas por porcentagens ou contagens.</p>
+<section id="ordinal" class="level3">
+<h3 class="anchored" data-anchor-id="ordinal">2.2.1 Ordinal</h3>
+<ul>
+<li><p>data_inversa</p></li>
+<li><p>dia_semana</p></li>
+<li><p>fase_dia</p></li>
+</ul>
+</section>
+<section id="nominal" class="level3">
+<h3 class="anchored" data-anchor-id="nominal">2.2.2 Nominal</h3>
+<ul>
+<li><p>município</p></li>
+<li><p>tipo_acidente</p></li>
+<li><p>condicao_metereologica</p></li>
+<li><p>tipo_pista</p></li>
+<li><p>uf</p></li>
+<li><p>br</p></li>
+<li><p>id</p></li>
+</ul>
+<p>As variáveis quantitativas representam dados que podem ser medidos ou quantificados numericamente.</p>
+</section>
+<section id="contínuas" class="level3">
+<h3 class="anchored" data-anchor-id="contínuas">2.2.1 Contínuas</h3>
+<ul>
+<li><p>latitude</p></li>
+<li><p>longitude</p></li>
+<li><p>horario</p></li>
+<li><p>km</p></li>
+</ul>
+</section>
+<section id="discretas" class="level3">
+<h3 class="anchored" data-anchor-id="discretas">2.2.2 Discretas</h3>
+<ul>
+<li><p>pessoas</p></li>
+<li><p>feridos</p></li>
+<li><p>feridos_leves</p></li>
+<li><p>feridos_graves</p></li>
+<li><p>veiculos</p></li>
+<li><p>mortos</p></li>
+<li><p>ilesos</p></li>
+</ul>
+</section>
 </section>
 </section>
 <section id="limpeza-e-tratamento-de-dados" class="level1">
 <h1>3 Limpeza e tratamento de dados</h1>
 <section id="valores-ausentes" class="level2">
 <h2 class="anchored" data-anchor-id="valores-ausentes">3.1 Valores ausentes</h2>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>                                     Variavel Valores_Ausentes
+id                                         id                0
+data_inversa                     data_inversa                0
+horario                               horario                0
+horario_formatado           horario_formatado                0
+hora                                     hora                0
+periodo                               periodo                0
+fase_dia                             fase_dia                0
+mes                                       mes                0
+dia_semana                         dia_semana                0
+uf                                         uf                0
+br                                         br                0
+km                                         km                4
+municipio                           municipio                0
+tipo_acidente                   tipo_acidente                0
+condicao_metereologica condicao_metereologica                0
+tipo_pista                         tipo_pista                0
+pessoas                               pessoas                0
+mortos                                 mortos                0
+feridos_leves                   feridos_leves                0
+feridos_graves                 feridos_graves                0
+ilesos                                 ilesos                0
+feridos                               feridos                0
+veiculos                             veiculos                0
+latitude                             latitude                0
+longitude                           longitude                0</code></pre>
+</div>
+</div>
+<p>Foi realizada a verificação de valores ausentes na base de dados utilizando funções de contagem de NA. Observou-se a presença de poucos valores ausentes na variável km. Após investigação, verificou-se que esses valores já estavam originalmente ausentes na base de dados, não sendo gerados durante o processo de transformação das variáveis.</p>
 </section>
 <section id="padronização-das-variáveis" class="level2">
 <h2 class="anchored" data-anchor-id="padronização-das-variáveis">3.2 Padronização das variáveis</h2>
+<p>A variável <code>br</code> foi modificada, removendo-se o sufixo <code>.0</code> e adicionando-se o prefixo <code>BR-</code>, com o objetivo de melhorar a padronização textual.</p>
+<p>A variável <code>mes</code> foi elaborada a partir de <code>data_inversa</code>, visando simplificar a criação de gráficos e análises temporais.</p>
+<p>A variável <code>horario_formatado</code> foi criada porque a variável original <code>horario</code> continha inconsistências relacionadas ao formato entre data e hora, sendo extraída apenas a informação referente ao horário.</p>
+<p>A variável <code>hora</code> originou-se da variável <code>horario</code>, com a finalidade de facilitar a legibilidade dos gráficos e análises, uma vez que a representação em valores inteiros torna a visualização mais simples.</p>
+<p>A variável <code>periodo</code> foi derivada da variável <code>hora</code> com o objetivo de consolidar a variável <code>fase_dia</code>, pois esta apresentava categorias muito fragmentadas, o que dificultaria as análises temporais.</p>
 </section>
 <section id="variáveis-temporais" class="level2">
 <h2 class="anchored" data-anchor-id="variáveis-temporais">3.3 Variáveis temporais</h2>
+<p>Foram criadas variáveis temporais derivadas das já existentes no banco de dados, com a finalidade de melhorar a legibilidade e facilitar a interpretação dos dados ao longo do tempo.</p>
 </section>
 <section id="transformação-de-variáveis" class="level2">
 <h2 class="anchored" data-anchor-id="transformação-de-variáveis">3.4 Transformação de variáveis</h2>
-<p>A variável fase_dia não foi utilizada nas análises exploratórias, pois apresenta informações semelhantes à variável periodo, criada durante a etapa de tratamento dos dados.</p>
-<p>A variável periodo foi construída a partir da variável hora, permitindo uma categorização mais padronizada dos horários dos acidentes em madrugada, manhã, tarde e noite.</p>
-<p>Dessa forma, optou-se por utilizar apenas a variável periodo nas análises posteriores, evitando redundância nas interpretações.</p>
+<p>A variável <code>fase_dia</code> não foi utilizada nas análises exploratórias, pois apresenta informações semelhantes à variável <code>periodo</code>, criada durante a etapa de tratamento dos dados.</p>
+<p>A variável <code>periodo</code> foi construída a partir da variável <code>hora</code>, permitindo uma categorização mais padronizada dos horários dos acidentes em madrugada, manhã, tarde e noite.</p>
+<p>Dessa forma, optou-se por utilizar apenas a variável <code>periodo</code> nas análises posteriores, evitando redundância nas interpretações.</p>
+<p>Algumas variáveis passaram por transformações para adequação às análises estatísticas. Para melhorar a visualização dos gráficos bivariados envolvendo tipo de acidente, foram selecionados apenas os dez tipos de acidentes com maior frequência de ocorrência, reduzindo a poluição visual e facilitando a interpretação dos resultados.</p>
 </section>
 <section id="verificação-de-consistência" class="level2">
 <h2 class="anchored" data-anchor-id="verificação-de-consistência">3.5 Verificação de consistência</h2>
+<p>Também foi realizada uma verificação de consistência entre variáveis relacionadas. Observou-se que a variável feridos corresponde corretamente à soma entre feridos leves e feridos graves, indicando coerência interna nos registros da base.</p>
 </section>
 </section>
 <section id="análise-exploratória" class="level1">
 <h1>4 Análise exploratória</h1>
+<p>A análise exploratória de dados tem como objetivo compreender o comportamento das variáveis, identificar padrões, valores extremos (outliers) e possíveis relações entre os dados.</p>
+<p>Nesta etapa, foram realizadas análises univariadas e bivariadas, utilizando medidas estatísticas e gráficos para facilitar a interpretação dos acidentes registrados nas rodovias de Minas Gerais.</p>
 <section id="análise-univariada" class="level2">
 <h2 class="anchored" data-anchor-id="análise-univariada">4.1 Análise univariada</h2>
+<p>A análise univariada busca estudar cada variável individualmente, permitindo observar sua distribuição, frequência e concentração dos valores.</p>
+<p>Para as variáveis numéricas, foram utilizadas medidas descritivas, gráficos de barras e boxplots. Já para as variáveis categóricas, foram utilizadas tabelas de frequência e gráficos de barras.</p>
 <section id="váriáveis-numéricas" class="level3">
 <h3 class="anchored" data-anchor-id="váriáveis-numéricas">4.1.1 Váriáveis numéricas</h3>
 <section id="pessoas" class="level4">
 <h4 class="anchored" data-anchor-id="pessoas">Pessoas</h4>
 <p>A variável pessoas representa a quantidade de indivíduos envolvidos em cada acidente registrado. Para compreender sua distribuição, foram utilizadas medidas descritivas e gráficos de distribuição.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"pessoas"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: pessoas
-====================
-
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   1.00    1.00    2.00    2.23    3.00   14.00 
-
-Desvio padrão: 1.445585
-Variância: 2.089716</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resumo estatístico de Pessoas</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1º Quartil</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">2.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Média</td>
+<td style="text-align: right;">2.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3º Quartil</td>
+<td style="text-align: right;">3.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">14.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Desvio Padrão</td>
+<td style="text-align: right;">1.45</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variância</td>
+<td style="text-align: right;">2.09</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"pessoas"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"pessoas"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -192,90 +340,180 @@ Variância: 2.089716</code></pre>
 <h4 class="anchored" data-anchor-id="feridos-levesgraves">Feridos( leves/graves)</h4>
 <p>As variáveis feridos, feridos_leves e feridos_graves indicam a quantidade de pessoas atingidas nos acidentes e a gravidade dos ferimentos.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"feridos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: feridos
-====================
-
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  0.000   1.000   1.000   1.265   2.000  13.000 
-
-Desvio padrão: 1.067038
-Variância: 1.138571</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resumo estatístico de Feridos</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1º Quartil</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Média</td>
+<td style="text-align: right;">1.26</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3º Quartil</td>
+<td style="text-align: right;">2.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">13.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Desvio Padrão</td>
+<td style="text-align: right;">1.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variância</td>
+<td style="text-align: right;">1.14</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"feridos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"feridos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"feridos_leves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: feridos_leves
-====================
-
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.0000  0.0000  1.0000  0.9826  1.0000 11.0000 
-
-Desvio padrão: 0.9840357
-Variância: 0.9683262</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resumo estatístico de Feridos Leves</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1º Quartil</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Média</td>
+<td style="text-align: right;">0.98</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3º Quartil</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">11.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Desvio Padrão</td>
+<td style="text-align: right;">0.98</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variância</td>
+<td style="text-align: right;">0.97</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"feridos_leves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-5-3.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-6-3.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"feridos_leves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-5-4.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-6-4.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"feridos_graves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: feridos_graves
-====================
-
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.0000  0.0000  0.0000  0.2823  0.0000  8.0000 
-
-Desvio padrão: 0.6108166
-Variância: 0.3730969</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resumo estatístico de Feridos Graves</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1º Quartil</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Média</td>
+<td style="text-align: right;">0.28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3º Quartil</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">8.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Desvio Padrão</td>
+<td style="text-align: right;">0.61</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variância</td>
+<td style="text-align: right;">0.37</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"feridos_graves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-5-5.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-6-5.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"feridos_graves"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-5-6.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-6-6.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -289,32 +527,62 @@ Variância: 0.3730969</code></pre>
 <h4 class="anchored" data-anchor-id="mortos">Mortos</h4>
 <p>A variável mortos indica a quantidade de vítimas fatais nos acidentes.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"mortos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: mortos
-====================
-
-    Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
- 0.00000  0.00000  0.00000  0.07971  0.00000 12.00000 
-
-Desvio padrão: 0.3697576
-Variância: 0.1367207</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resumo estatístico de Mortos</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1º Quartil</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Média</td>
+<td style="text-align: right;">0.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3º Quartil</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">12.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Desvio Padrão</td>
+<td style="text-align: right;">0.37</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variância</td>
+<td style="text-align: right;">0.14</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"mortos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"mortos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -325,32 +593,62 @@ Variância: 0.1367207</code></pre>
 <h4 class="anchored" data-anchor-id="ilesos">Ilesos</h4>
 <p>A variável ilesos representa a quantidade de pessoas envolvidas nos acidentes que não sofreram ferimentos.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"ilesos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: ilesos
-====================
-
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.0000  0.0000  1.0000  0.8851  1.0000 13.0000 
-
-Desvio padrão: 1.083698
-Variância: 1.174401</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resumo estatístico de Ilesos</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1º Quartil</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Média</td>
+<td style="text-align: right;">0.89</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3º Quartil</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">13.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Desvio Padrão</td>
+<td style="text-align: right;">1.08</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variância</td>
+<td style="text-align: right;">1.17</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"ilesos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"ilesos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -362,32 +660,62 @@ Variância: 1.174401</code></pre>
 <h4 class="anchored" data-anchor-id="veículos">Veículos</h4>
 <p>A variável veiculos representa a quantidade de veículos envolvidos em cada acidente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_numerica</span>(acidentes, <span class="st">"veiculos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: veiculos
-====================
-
-   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  1.000   1.000   1.000   1.555   2.000   9.000 
-
-Desvio padrão: 0.7270478
-Variância: 0.5285985</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Resumo estatístico de Veiculos</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Medida</th>
+<th style="text-align: right;">Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Mínimo</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1º Quartil</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Mediana</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Média</td>
+<td style="text-align: right;">1.55</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3º Quartil</td>
+<td style="text-align: right;">2.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Máximo</td>
+<td style="text-align: right;">9.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Desvio Padrão</td>
+<td style="text-align: right;">0.73</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variância</td>
+<td style="text-align: right;">0.53</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes, <span class="st">"veiculos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot</span>(acidentes, <span class="st">"veiculos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -401,27 +729,49 @@ Variância: 0.5285985</code></pre>
 <p>Condição metereológica</p>
 <p>A variável condicao_meteorologica representa as condições climáticas no momento em que o acidente ocorreu.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"condicao_metereologica"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: condicao_metereologica
-====================
-
-# A tibble: 5 × 3
-  condicao_metereologica     n porcentagem
-  &lt;chr&gt;                  &lt;int&gt;       &lt;dbl&gt;
-1 Céu Claro               3960       60.6 
-2 Nublado                 1225       18.7 
-3 Chuva                   1208       18.5 
-4 Ignorado                 100        1.53
-5 Nevoeiro/Neblina          43        0.66</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Distribuição de Condicao Metereologica</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Condicao Metereologica</th>
+<th style="text-align: right;">Frequência</th>
+<th style="text-align: right;">Porcentagem (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Chuva</td>
+<td style="text-align: right;">1208</td>
+<td style="text-align: right;">18.48</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Céu Claro</td>
+<td style="text-align: right;">3960</td>
+<td style="text-align: right;">60.59</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Ignorado</td>
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">1.53</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Nevoeiro/Neblina</td>
+<td style="text-align: right;">43</td>
+<td style="text-align: right;">0.66</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Nublado</td>
+<td style="text-align: right;">1225</td>
+<td style="text-align: right;">18.74</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"condicao_metereologica"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -431,25 +781,39 @@ Variável: condicao_metereologica
 <p>Tipo de pista</p>
 <p>A variável tipo_pista indica a configuração da rodovia onde ocorreu o acidente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"tipo_pista"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: tipo_pista
-====================
-
-# A tibble: 3 × 3
-  tipo_pista     n porcentagem
-  &lt;chr&gt;      &lt;int&gt;       &lt;dbl&gt;
-1 Simples     3335       51.0 
-2 Dupla       2990       45.8 
-3 Múltipla     211        3.23</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Distribuição de Tipo Pista</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tipo Pista</th>
+<th style="text-align: right;">Frequência</th>
+<th style="text-align: right;">Porcentagem (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Dupla</td>
+<td style="text-align: right;">2990</td>
+<td style="text-align: right;">45.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Múltipla</td>
+<td style="text-align: right;">211</td>
+<td style="text-align: right;">3.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Simples</td>
+<td style="text-align: right;">3335</td>
+<td style="text-align: right;">51.03</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"tipo_pista"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -460,26 +824,46 @@ Já as pistas múltiplas apresentaram menor frequência de acidentes, totalizand
 <p>Período</p>
 <p>A variável periodo representa o período do dia em que o acidente ocorreu.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"periodo"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: periodo
-====================
-
-# A tibble: 4 × 3
-  periodo       n porcentagem
-  &lt;ord&gt;     &lt;int&gt;       &lt;dbl&gt;
-1 Tarde      2218       33.9 
-2 Manhã      2000       30.6 
-3 Noite      1746       26.7 
-4 Madrugada   572        8.75</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"periodo"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Distribuição de Periodo</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Periodo</th>
+<th style="text-align: right;">Frequência</th>
+<th style="text-align: right;">Porcentagem (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Madrugada</td>
+<td style="text-align: right;">572</td>
+<td style="text-align: right;">8.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Manhã</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">30.60</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tarde</td>
+<td style="text-align: right;">2218</td>
+<td style="text-align: right;">33.94</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Noite</td>
+<td style="text-align: right;">1746</td>
+<td style="text-align: right;">26.71</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"periodo"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"periodo"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -490,29 +874,59 @@ Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com ap
 <p>Dia da semana</p>
 <p>A variável dia_semana representa o dia da semana em que os acidentes ocorreram.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"dia_semana"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: dia_semana
-====================
-
-# A tibble: 7 × 3
-  dia_semana     n porcentagem
-  &lt;ord&gt;      &lt;int&gt;       &lt;dbl&gt;
-1 sábado      1102        16.9
-2 sexta       1059        16.2
-3 domingo     1053        16.1
-4 segunda      857        13.1
-5 quinta       846        12.9
-6 quarta       825        12.6
-7 terça        794        12.2</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Distribuição de Dia Semana</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dia Semana</th>
+<th style="text-align: right;">Frequência</th>
+<th style="text-align: right;">Porcentagem (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">segunda</td>
+<td style="text-align: right;">857</td>
+<td style="text-align: right;">13.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">terça</td>
+<td style="text-align: right;">794</td>
+<td style="text-align: right;">12.15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">quarta</td>
+<td style="text-align: right;">825</td>
+<td style="text-align: right;">12.62</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">quinta</td>
+<td style="text-align: right;">846</td>
+<td style="text-align: right;">12.94</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sexta</td>
+<td style="text-align: right;">1059</td>
+<td style="text-align: right;">16.20</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sábado</td>
+<td style="text-align: right;">1102</td>
+<td style="text-align: right;">16.86</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">domingo</td>
+<td style="text-align: right;">1053</td>
+<td style="text-align: right;">16.11</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_numerico</span>(acidentes,<span class="st">"dia_semana"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -523,34 +937,84 @@ Por outro lado, a terça-feira apresentou a menor frequência de acidentes, com 
 <p>Tipo de acidente</p>
 <p>A variável tipo_acidente representa a classificação do acidente registrado.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes,<span class="st">"tipo_acidente"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: tipo_acidente
-====================
-
-# A tibble: 12 × 3
-   tipo_acidente                    n porcentagem
-   &lt;chr&gt;                        &lt;int&gt;       &lt;dbl&gt;
- 1 Saída de leito carroçável     1682       25.7 
- 2 Colisão traseira              1066       16.3 
- 3 Tombamento                     869       13.3 
- 4 Colisão lateral                622        9.52
- 5 Colisão transversal            597        9.13
- 6 Colisão frontal                543        8.31
- 7 Queda de ocupante de veículo   312        4.77
- 8 Capotamento                    264        4.04
- 9 Atropelamento de Pedestre      223        3.41
-10 Incêndio                       150        2.29
-11 Atropelamento de Animal        125        1.91
-12 Engavetamento                   83        1.27</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Distribuição de Tipo Acidente</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Tipo Acidente</th>
+<th style="text-align: right;">Frequência</th>
+<th style="text-align: right;">Porcentagem (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Atropelamento de Animal</td>
+<td style="text-align: right;">125</td>
+<td style="text-align: right;">1.91</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Atropelamento de Pedestre</td>
+<td style="text-align: right;">223</td>
+<td style="text-align: right;">3.41</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Capotamento</td>
+<td style="text-align: right;">264</td>
+<td style="text-align: right;">4.04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Colisão frontal</td>
+<td style="text-align: right;">543</td>
+<td style="text-align: right;">8.31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Colisão lateral</td>
+<td style="text-align: right;">622</td>
+<td style="text-align: right;">9.52</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Colisão transversal</td>
+<td style="text-align: right;">597</td>
+<td style="text-align: right;">9.13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Colisão traseira</td>
+<td style="text-align: right;">1066</td>
+<td style="text-align: right;">16.31</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Engavetamento</td>
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">1.27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Incêndio</td>
+<td style="text-align: right;">150</td>
+<td style="text-align: right;">2.29</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Queda de ocupante de veículo</td>
+<td style="text-align: right;">312</td>
+<td style="text-align: right;">4.77</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Saída de leito carroçável</td>
+<td style="text-align: right;">1682</td>
+<td style="text-align: right;">25.73</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Tombamento</td>
+<td style="text-align: right;">869</td>
+<td style="text-align: right;">13.30</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot</span>(acidentes,<span class="st">"tipo_acidente"</span> )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -561,39 +1025,109 @@ Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizan
 <p>BR</p>
 <p>A variável br representa a rodovia na qual o acidente ocorreu.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">analise_categorica</span>(acidentes, <span class="st">"br"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-====================
-Variável: br
-====================
-
-# A tibble: 17 × 3
-   br         n porcentagem
-   &lt;chr&gt;  &lt;int&gt;       &lt;dbl&gt;
- 1 BR-381  1948       29.8 
- 2 BR-40   1282       19.6 
- 3 BR-116   851       13.0 
- 4 BR-262   793       12.1 
- 5 BR-365   483        7.39
- 6 BR-50    421        6.44
- 7 BR-251   201        3.08
- 8 BR-153   173        2.65
- 9 BR-267   121        1.85
-10 BR-459    70        1.07
-11 BR-354    65        0.99
-12 BR-356    54        0.83
-13 BR-146    53        0.81
-14 BR-364    15        0.23
-15 BR-NA      4        0.06
-16 BR-265     1        0.02
-17 BR-352     1        0.02</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Distribuição de Br</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Br</th>
+<th style="text-align: right;">Frequência</th>
+<th style="text-align: right;">Porcentagem (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">BR-116</td>
+<td style="text-align: right;">851</td>
+<td style="text-align: right;">13.02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR-146</td>
+<td style="text-align: right;">53</td>
+<td style="text-align: right;">0.81</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BR-153</td>
+<td style="text-align: right;">173</td>
+<td style="text-align: right;">2.65</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR-251</td>
+<td style="text-align: right;">201</td>
+<td style="text-align: right;">3.08</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BR-262</td>
+<td style="text-align: right;">793</td>
+<td style="text-align: right;">12.13</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR-265</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BR-267</td>
+<td style="text-align: right;">121</td>
+<td style="text-align: right;">1.85</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR-352</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BR-354</td>
+<td style="text-align: right;">65</td>
+<td style="text-align: right;">0.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR-356</td>
+<td style="text-align: right;">54</td>
+<td style="text-align: right;">0.83</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BR-364</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">0.23</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR-365</td>
+<td style="text-align: right;">483</td>
+<td style="text-align: right;">7.39</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BR-381</td>
+<td style="text-align: right;">1948</td>
+<td style="text-align: right;">29.80</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR-40</td>
+<td style="text-align: right;">1282</td>
+<td style="text-align: right;">19.61</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BR-459</td>
+<td style="text-align: right;">70</td>
+<td style="text-align: right;">1.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">BR-50</td>
+<td style="text-align: right;">421</td>
+<td style="text-align: right;">6.44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">BR-NA</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.06</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot</span>(acidentes, <span class="st">"br"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -602,11 +1136,10 @@ Variável: br
 <p>Município</p>
 <p>A variável município represenda a cidade onde ocorreu o acidente.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_top10</span>(acidentes, <span class="st">"municipio"</span>, <span class="st">"Top 10 Municípios"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="projeto_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -616,22 +1149,9 @@ Variável: br
 </section>
 <section id="análise-bivariada" class="level2">
 <h2 class="anchored" data-anchor-id="análise-bivariada">4.2 Análise bivariada</h2>
+<p>A análise bivariada teve como objetivo investigar relações entre duas variáveis, buscando identificar possíveis associações e padrões nos acidentes.</p>
+<p>Foram realizados cruzamentos entre variáveis como tipo de acidente, condição meteorológica, tipo de pista e período do dia, utilizando gráficos comparativos para auxiliar na interpretação dos resultados.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_grafico_temporal</span>(acidentes, <span class="st">"mes"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="projeto_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p>Com base no gráfico é possível observar que</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot</span>(</span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  acidentes,</span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"dia_semana"</span></span>
-<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -640,8 +1160,11 @@ Variável: br
 </div>
 </div>
 </div>
+<p>Ao analisar a relação entre tipo de pista e tipo de acidente, observa-se que nas pistas duplas os acidentes mais frequentes são saída de leito carroçável e colisão traseira. Já a colisão frontal apresenta baixa incidência nesse tipo de pista.</p>
+<p>Nas pistas múltiplas, a quantidade total de acidentes é significativamente menor em comparação aos demais tipos de pista. Entretanto, dentre os acidentes registrados, a colisão traseira aparece como a ocorrência mais frequente.</p>
+<p>Em relação às pistas simples, nota-se maior concentração de acidentes do tipo saída de leito carroçável. Em seguida, destacam-se colisão frontal, colisão transversal e tombamento, indicando maior variedade e frequência de acidentes nesse tipo de pista. Além disso, colisão lateral e colisão traseira apresentaram menor incidência em comparação às demais categorias.</p>
+<p>De forma geral, percebe-se que as pistas simples concentram a maior quantidade de acidentes e apresentam maior diversidade nos tipos de ocorrência registrados.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot</span>(acidentes,<span class="st">"periodo"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -650,12 +1173,11 @@ Variável: br
 </div>
 </div>
 </div>
+<p>Ao analisar a relação entre condição meteorológica e tipo de acidente, observa-se que a maior parte dos acidentes ocorreu em situações de céu claro. Nessa condição, o acidente mais frequente é saída de leito carroçável, seguido por colisão traseira e tombamento. As demais categorias, como colisão lateral, colisão frontal e colisão transversal, apresentam incidências menores.</p>
+<p>Em situações de chuva, destaca-se de forma significativa a ocorrência de saída de leito carroçável, apresentando frequência muito superior às demais categorias de acidentes. Em segundo lugar aparece a colisão frontal, porém com quantidade consideravelmente inferior.</p>
+<p>Quando a condição meteorológica é de céu nublado, novamente a saída de leito carroçável representa a principal ocorrência. Em seguida aparecem colisão traseira e tombamento, com frequências próximas entre si. Já as demais categorias apresentam incidências mais baixas.</p>
+<p>Por fim, em condições de nevoeiro ou neblina, observa-se quantidade bastante reduzida de acidentes registrados.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_bivariado_cat</span>(acidentes,<span class="st">"tipo_pista"</span>,<span class="st">"tipo_acidente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in RColorBrewer::brewer.pal(n, pal): n too large, allowed maximum for palette Set2 is 8
-Returning the palette you asked for with that many colors</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -664,12 +1186,11 @@ Returning the palette you asked for with that many colors</code></pre>
 </div>
 </div>
 </div>
+<p>Ao analisar a relação entre período do dia e quantidade de mortes, observa-se que a mediana é igual a zero em todos os períodos, indicando que a maior parte dos acidentes não apresentou vítimas fatais.</p>
+<p>Entretanto, os boxplots evidenciam a presença de valores extremos (outliers) em todos os períodos do dia, demonstrando que existem ocorrências menos frequentes com elevado número de mortes.</p>
+<p>O período da madrugada apresentou o maior valor extremo observado, com aproximadamente 12 mortes em um único acidente, indicando maior gravidade em algumas ocorrências registradas nesse horário.</p>
+<p>Além disso, o período da noite apresentou maior concentração de outliers em comparação aos demais períodos, com valores entre aproximadamente 7 e 10 mortes. Já os períodos da manhã e da tarde apresentaram distribuições semelhantes, com valores extremos mais baixos, próximos de cinco mortes.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_bivariado_cat</span>(acidentes,<span class="st">"condicao_metereologica"</span>,<span class="st">"tipo_acidente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in RColorBrewer::brewer.pal(n, pal): n too large, allowed maximum for palette Set2 is 8
-Returning the palette you asked for with that many colors</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -678,8 +1199,11 @@ Returning the palette you asked for with that many colors</code></pre>
 </div>
 </div>
 </div>
+<p>Ao analisar a relação entre tipo de pista e quantidade de mortes, observa-se que a mediana é igual a zero para todos os tipos de pista, indicando que a maior parte dos acidentes registrados não apresentou vítimas fatais.</p>
+<p>Entretanto, os boxplots evidenciam a presença de valores extremos (outliers), representando acidentes com maior número de mortes. A pista simples foi o tipo de pista que apresentou os maiores valores extremos, além da maior quantidade de outliers, indicando maior ocorrência de acidentes graves nesse tipo de via. O maior valor observado foi de aproximadamente 12 mortes em um único acidente.</p>
+<p>Já a pista dupla apresentou menor quantidade de outliers em comparação à pista simples, com valores máximos próximos de duas mortes. A pista múltipla foi a que apresentou menor quantidade de valores extremos, contendo apenas um outlier com valor relativamente baixo, entre uma e duas mortes.</p>
+<p>De forma geral, percebe-se que os acidentes em pistas simples tendem a apresentar maior gravidade quando comparados aos demais tipos de pista.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot_bivariado</span>(acidentes,<span class="st">"periodo"</span>,<span class="st">"mortos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -688,8 +1212,10 @@ Returning the palette you asked for with that many colors</code></pre>
 </div>
 </div>
 </div>
+<p>Ao analisar a distribuição de acidentes por BR, observa-se que a BR-381 apresenta, de forma disparada, a maior quantidade de ocorrências registradas no conjunto de dados. Esse resultado indica elevada concentração de acidentes nessa rodovia em comparação às demais.</p>
+<p>Em seguida, destaca-se a BR-040 como a segunda rodovia com maior número de acidentes. Já as BRs 116 e 262 apresentam quantidades semelhantes de ocorrências, com valores próximos entre si.</p>
+<p>De forma geral, percebe-se que a BR-381 concentra significativamente mais acidentes do que as outras rodovias analisadas, evidenciando sua relevância dentro do cenário de acidentes nas rodovias de Minas Gerais.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_boxplot_bivariado</span>(acidentes,<span class="st">"tipo_pista"</span>,<span class="st">"mortos"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -698,8 +1224,15 @@ Returning the palette you asked for with that many colors</code></pre>
 </div>
 </div>
 </div>
+<p>A análise bivariada entre <code>periodo</code> e <code>tipo_acidente</code> permite observar como os diferentes tipos de acidentes se distribuem ao longo dos períodos do dia. De forma geral, percebe-se que o tipo de acidente mais frequente em todos os períodos é a saída de leito carroçável, indicando que esse padrão se mantém independentemente do horário analisado.</p>
+<p>Durante a madrugada, observa-se uma concentração mais acentuada de acidentes por saída de leito carroçável, representando mais de 25% dos acidentes registrados nesse período. Em seguida, destaca-se a colisão traseira. Já os acidentes menos frequentes durante a madrugada correspondem aos atropelamentos de animais.</p>
+<p>No período da manhã, novamente predominam os acidentes por saída de leito carroçável, seguidos pelas colisões traseiras e pelos tombamentos. Esse comportamento indica certa continuidade do padrão observado na madrugada, embora com distribuição um pouco menos concentrada.</p>
+<p>Durante a tarde, a saída de leito carroçável continua sendo o tipo de acidente mais incidente, seguida pelas colisões traseiras e colisões transversais. As demais categorias, como capotamento, colisão lateral e tombamento, apresentam frequências relativamente semelhantes, enquanto o atropelamento de animais permanece entre os menos frequentes.</p>
+<p>No período da noite, observa-se uma distribuição mais equilibrada entre os tipos de acidentes. A saída de leito carroçável ainda aparece como a principal ocorrência, porém praticamente empatada com as colisões traseiras, indicando uma menor concentração em um único tipo de acidente quando comparado aos demais períodos do dia.</p>
+</section>
+<section id="análise-temporal" class="level2">
+<h2 class="anchored" data-anchor-id="análise-temporal">4.3 Análise temporal</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_barplot_horizontal</span>(acidentes,<span class="st">"br"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -708,14 +1241,11 @@ Returning the palette you asked for with that many colors</code></pre>
 </div>
 </div>
 </div>
+<p>Ao analisar a distribuição temporal dos acidentes ao longo dos meses do ano, observa-se que o mês de dezembro apresenta a maior quantidade de ocorrências registradas, indicando um pico significativo no número de acidentes nesse período. Em seguida, destaca-se o mês de outubro como o segundo com maior incidência de acidentes. Os meses de setembro e janeiro também apresentam valores elevados e bastante próximos entre si.</p>
+<p>Por outro lado, o mês de abril apresenta a menor quantidade de acidentes registrados, representando o ponto de menor incidência ao longo do ano.</p>
+<p>Observando o comportamento temporal da série, percebe-se uma redução gradual no número de acidentes entre janeiro e abril, período em que é atingido o menor valor observado. A partir de maio ocorre uma elevação significativa nas ocorrências, seguida por certa estabilidade entre maio e junho.</p>
+<p>Entre julho e agosto observa-se um novo aumento mais acentuado na quantidade de acidentes, enquanto entre agosto, setembro e outubro o crescimento continua de forma mais moderada. Já entre outubro e novembro ocorre uma queda significativa nas ocorrências, seguida por um novo aumento expressivo em dezembro, mês que concentra o maior número de acidentes registrados.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">criar_bivariado_empilhado</span>(acidentes,</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"periodo"</span>,</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>                          <span class="st">"tipo_acidente"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in RColorBrewer::brewer.pal(n, pal): n too large, allowed maximum for palette Pastel1 is 9
-Returning the palette you asked for with that many colors</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -724,9 +1254,21 @@ Returning the palette you asked for with that many colors</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="análise-temporal" class="level2">
-<h2 class="anchored" data-anchor-id="análise-temporal">4.3 Análise temporal</h2>
+<p>Ao analisar a distribuição de acidentes por dia da semana, observa-se que o sábado apresenta a maior quantidade de ocorrências registradas, sendo o dia com maior incidência de acidentes. Em seguida, destacam-se a sexta-feira e o domingo, que apresentam valores bastante próximos, embora a sexta-feira possua quantidade ligeiramente superior.</p>
+<p>Dessa forma, percebe-se que os acidentes se concentram principalmente no período correspondente ao final de semana, especialmente entre sexta-feira, sábado e domingo.</p>
+<p>Já nos demais dias da semana, segunda-feira, quinta-feira, quarta-feira e terça-feira apresentam quantidades relativamente semelhantes de acidentes, com menor variação entre si. Entre esses dias, a terça-feira corresponde ao menor número de ocorrências registradas.</p>
+<p>De maneira geral, a ordem dos dias com maior incidência de acidentes, do mais frequente para o menos frequente, é: sábado, sexta-feira, domingo, segunda-feira, quinta-feira, quarta-feira e terça-feira.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="projeto_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A maior incidência de acidentes ocorre no período da tarde, seguido pelo período da manhã. Em seguida, observa-se uma redução no período da noite, enquanto a madrugada apresenta a menor quantidade de registros.</p>
+<p>Nota-se uma diferença bastante expressiva entre a tarde e a madrugada, evidenciando uma concentração de acidentes no período vespertino. A diferença entre tarde e manhã, embora existente, é menos acentuada. Já entre manhã e noite, a variação é moderada e semelhante à observada entre noite e madrugada. Em síntese, o período da tarde se destaca como o de maior ocorrência de acidentes, enquanto a madrugada apresenta os menores índices.</p>
 </section>
 <section id="análise-espacial" class="level2">
 <h2 class="anchored" data-anchor-id="análise-espacial">4.4 Análise espacial</h2>

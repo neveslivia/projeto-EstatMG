@@ -13,6 +13,12 @@ source("../scripts/02_limpeza.R")
 source("../scripts/03_funcoes.R")
 ```
 
+```{r}
+library(ggplot2)
+library(dplyr)
+library(maps)
+```
+
 # 1 Introdução
 
 O presente relatório tem como objetivo realizar uma análise descritiva da base de dados de acidentes rodoviários registrados em Minas Gerais no ano de 2020. A análise busca identificar padrões, distribuições e possíveis associações relacionadas aos acidentes, considerando variáveis temporais, espaciais e características dos registros.
@@ -28,8 +34,15 @@ Além disso, o projeto busca explorar relações entre fatores como período do 
 A base de dados utilizada contém informações dos acidentes ocorridos nas rodovias federais de Minas Gerais no ano de 2020. Após o carregamento de dados, verificou-se a presença de 6536 observações e 21 variáveis, contendo informações dos acidentes, vítimas, características da rodovia e condições ambientais
 
 ```{r}
-dim(acidentes)
-glimpse(acidentes)
+#| echo: false
+#| warning: false
+#| message: false
+
+
+data.frame(
+  Variavel = names(acidentes),
+  Classe = sapply(acidentes, function(x) class(x)[1])
+)
 ```
 
 ## 2.2 Classificação de variáveis
@@ -95,14 +108,15 @@ As variáveis quantitativas representam dados que podem ser medidos ou quantific
 ## 3.1 Valores ausentes
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 
-colSums(is.na(acidentes))
+data.frame(
+  Variavel = names(acidentes),
+  Valores_Ausentes = colSums(is.na(acidentes))
+)
 
-any(is.na(acidentes))
-
-sum(is.na(acidentes))
-
-sum(is.na(acidentes$km))
 ```
 
 Foi realizada a verificação de valores ausentes na base de dados utilizando funções de contagem de NA. Observou-se a presença de poucos valores ausentes na variável km. Após investigação, verificou-se que esses valores já estavam originalmente ausentes na base de dados, não sendo gerados durante o processo de transformação das variáveis.
@@ -136,12 +150,14 @@ Algumas variáveis passaram por transformações para adequação às análises 
 ## 3.5 Verificação de consistência
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 verificacao_feridos <- all(
   acidentes$feridos ==
     acidentes$feridos_leves +
     acidentes$feridos_graves
 )
-verificacao_feridos
 ```
 
 Também foi realizada uma verificação de consistência entre variáveis relacionadas. Observou-se que a variável feridos corresponde corretamente à soma entre feridos leves e feridos graves, indicando coerência interna nos registros da base.
@@ -165,6 +181,9 @@ Para as variáveis numéricas, foram utilizadas medidas descritivas, gráficos d
 A variável pessoas representa a quantidade de indivíduos envolvidos em cada acidente registrado. Para compreender sua distribuição, foram utilizadas medidas descritivas e gráficos de distribuição.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_numerica(acidentes, "pessoas")
 criar_barplot_numerico(acidentes, "pessoas")
 criar_boxplot(acidentes, "pessoas")
@@ -182,6 +201,9 @@ A proximidade entre média (2,23) e mediana (2) sugere que, apesar da presença 
 As variáveis feridos, feridos_leves e feridos_graves indicam a quantidade de pessoas atingidas nos acidentes e a gravidade dos ferimentos.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_numerica(acidentes, "feridos")
 criar_barplot_numerico(acidentes, "feridos")
 criar_boxplot(acidentes, "feridos")
@@ -213,6 +235,9 @@ Já a variável feridos_graves apresenta forte concentração entre zero e um fe
 A variável mortos indica a quantidade de vítimas fatais nos acidentes.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_numerica(acidentes, "mortos")
 criar_barplot_numerico(acidentes, "mortos")
 criar_boxplot(acidentes, "mortos")
@@ -226,7 +251,9 @@ Ao analisar essa variável, percebe-se que a grande maioria dos acidentes não r
 A variável ilesos representa a quantidade de pessoas envolvidas nos acidentes que não sofreram ferimentos.
 
 ```{r}
-
+#| echo: false
+#| warning: false
+#| message: false
 analise_numerica(acidentes, "ilesos")
 criar_barplot_numerico(acidentes, "ilesos")
 criar_boxplot(acidentes, "ilesos")
@@ -242,6 +269,9 @@ Ao analisar o boxplot, percebe-se também a presença de diversos valores extrem
 A variável veiculos representa a quantidade de veículos envolvidos em cada acidente.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_numerica(acidentes, "veiculos")
 criar_barplot_numerico(acidentes, "veiculos")
 criar_boxplot(acidentes, "veiculos")
@@ -258,6 +288,9 @@ Condição metereológica
 A variável condicao_meteorologica representa as condições climáticas no momento em que o acidente ocorreu.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_categorica(acidentes,"condicao_metereologica" )
 criar_barplot_numerico(acidentes,"condicao_metereologica")
 
@@ -272,6 +305,9 @@ Tipo de pista
 A variável tipo_pista indica a configuração da rodovia onde ocorreu o acidente.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_categorica(acidentes,"tipo_pista" )
 criar_barplot_numerico(acidentes,"tipo_pista" )
 
@@ -286,6 +322,10 @@ Período
 A variável periodo representa o período do dia em que o acidente ocorreu.
 
 ```{r}
+
+#| echo: false
+#| warning: false
+#| message: false
 analise_categorica(acidentes,"periodo" )
 criar_barplot_numerico(acidentes,"periodo")
 
@@ -300,6 +340,9 @@ Dia da semana
 A variável dia_semana representa o dia da semana em que os acidentes ocorreram.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_categorica(acidentes,"dia_semana" )
 criar_barplot_numerico(acidentes,"dia_semana")
 
@@ -315,6 +358,9 @@ Tipo de acidente
 A variável tipo_acidente representa a classificação do acidente registrado.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_categorica(acidentes,"tipo_acidente" )
 
 criar_barplot(acidentes,"tipo_acidente" )
@@ -330,6 +376,9 @@ BR
 A variável br representa a rodovia na qual o acidente ocorreu.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 analise_categorica(acidentes, "br")
 criar_barplot(acidentes, "br")
 ```
@@ -341,6 +390,9 @@ Município
 A variável município represenda a cidade onde ocorreu o acidente.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 plot_top10(acidentes, "municipio", "Top 10 Municípios")
 ```
 
@@ -353,6 +405,9 @@ A análise bivariada teve como objetivo investigar relações entre duas variáv
 Foram realizados cruzamentos entre variáveis como tipo de acidente, condição meteorológica, tipo de pista e período do dia, utilizando gráficos comparativos para auxiliar na interpretação dos resultados.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_bivariado_cat(acidentes_top10,"tipo_pista","tipo_acidente")
 ```
 
@@ -365,6 +420,9 @@ Em relação às pistas simples, nota-se maior concentração de acidentes do ti
 De forma geral, percebe-se que as pistas simples concentram a maior quantidade de acidentes e apresentam maior diversidade nos tipos de ocorrência registrados.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_bivariado_cat(acidentes_top10,"condicao_metereologica","tipo_acidente")
 ```
 
@@ -377,6 +435,9 @@ Quando a condição meteorológica é de céu nublado, novamente a saída de lei
 Por fim, em condições de nevoeiro ou neblina, observa-se quantidade bastante reduzida de acidentes registrados.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_boxplot_bivariado(acidentes,"periodo","mortos")
 ```
 
@@ -389,6 +450,9 @@ O período da madrugada apresentou o maior valor extremo observado, com aproxima
 Além disso, o período da noite apresentou maior concentração de outliers em comparação aos demais períodos, com valores entre aproximadamente 7 e 10 mortes. Já os períodos da manhã e da tarde apresentaram distribuições semelhantes, com valores extremos mais baixos, próximos de cinco mortes.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_boxplot_bivariado(acidentes,"tipo_pista","mortos")
 ```
 
@@ -401,6 +465,9 @@ Já a pista dupla apresentou menor quantidade de outliers em comparação à pis
 De forma geral, percebe-se que os acidentes em pistas simples tendem a apresentar maior gravidade quando comparados aos demais tipos de pista.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_barplot_horizontal(acidentes,"br")
 ```
 
@@ -411,6 +478,9 @@ Em seguida, destaca-se a BR-040 como a segunda rodovia com maior número de acid
 De forma geral, percebe-se que a BR-381 concentra significativamente mais acidentes do que as outras rodovias analisadas, evidenciando sua relevância dentro do cenário de acidentes nas rodovias de Minas Gerais.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_bivariado_empilhado(acidentes,"periodo","tipo_acidente")
 ```
 
@@ -427,6 +497,9 @@ No período da noite, observa-se uma distribuição mais equilibrada entre os ti
 ## 4.3 Análise temporal
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_grafico_temporal(acidentes, "mes")
 ```
 
@@ -439,6 +512,9 @@ Observando o comportamento temporal da série, percebe-se uma redução gradual 
 Entre julho e agosto observa-se um novo aumento mais acentuado na quantidade de acidentes, enquanto entre agosto, setembro e outubro o crescimento continua de forma mais moderada. Já entre outubro e novembro ocorre uma queda significativa nas ocorrências, seguida por um novo aumento expressivo em dezembro, mês que concentra o maior número de acidentes registrados.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_barplot(acidentes,"dia_semana")
 ```
 
@@ -451,6 +527,9 @@ Já nos demais dias da semana, segunda-feira, quinta-feira, quarta-feira e terç
 De maneira geral, a ordem dos dias com maior incidência de acidentes, do mais frequente para o menos frequente, é: sábado, sexta-feira, domingo, segunda-feira, quinta-feira, quarta-feira e terça-feira.
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 criar_barplot(acidentes,"periodo")
 ```
 
@@ -459,5 +538,228 @@ A maior incidência de acidentes ocorre no período da tarde, seguido pelo perí
 Nota-se uma diferença bastante expressiva entre a tarde e a madrugada, evidenciando uma concentração de acidentes no período vespertino. A diferença entre tarde e manhã, embora existente, é menos acentuada. Já entre manhã e noite, a variação é moderada e semelhante à observada entre noite e madrugada. Em síntese, o período da tarde se destaca como o de maior ocorrência de acidentes, enquanto a madrugada apresenta os menores índices.
 
 ## 4.4 Análise espacial
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+
+mg <- st_read("C:/Users/Usuario/Downloads/MG_Municipios_2025/MG_Municipios_2025.shp")
+
+ac_por_muni <- acidentes %>%
+  count(municipio)
+
+ac_por_muni$municipio <- str_to_upper(ac_por_muni$municipio)
+
+mg$NM_MUN <- str_to_upper(mg$NM_MUN)
+
+mapa_final <- mg %>%
+  left_join(ac_por_muni,
+            by = c("NM_MUN" = "municipio"))
+
+ggplot(mapa_final) +
+  
+  geom_sf(
+    aes(fill = n),
+    color = "gray85",
+    size = 0.08
+  ) +
+  
+  scale_fill_gradient(
+    low = "#dbe9f6",
+    high = "#08519c",
+    na.value = "gray95"
+  ) +
+  
+  labs(
+    title = "Quantidade de acidentes por município em Minas Gerais",
+    fill = "Acidentes"
+  ) +
+  
+  coord_sf() +
+  
+  tema_projeto() +
+  
+  theme(
+    
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    
+    panel.grid = element_blank(),
+    
+    panel.background = element_rect(
+      fill = "white",
+      color = NA
+    )
+    
+  )
+```
+
+```{r fig.width=12, fig.height=12}
+
+
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(viridis)
+library(ggrepel)
+library(osmdata)
+
+tema_projeto <- function(){
+  
+  theme_classic() +
+    
+    theme(
+      
+      plot.title = element_text(
+        size = 14,
+        face = "bold",
+        hjust = 0.5,
+        margin = margin(b = 12)
+      ),
+      
+      axis.title = element_text(
+        size = 11
+      ),
+      
+      axis.text = element_text(
+        size = 10,
+        color = "black"
+      ),
+      
+      legend.position = "bottom",
+      
+      legend.title = element_text(
+        face = "bold"
+      ),
+      
+      panel.border = element_blank(),
+      
+      plot.margin = margin(
+        15, 15, 15, 15
+      )
+      
+    )
+  
+}
+
+mg <- st_read(
+  "C:/Users/Usuario/Downloads/MG_Municipios_2025/MG_Municipios_2025.shp"
+)
+
+ac_por_muni <- acidentes %>%
+  count(municipio)
+
+ac_por_muni$municipio <- str_to_upper(
+  ac_por_muni$municipio
+)
+
+mg$NM_MUN <- str_to_upper(
+  mg$NM_MUN
+)
+
+mapa_final <- mg %>%
+  left_join(
+    ac_por_muni,
+    by = c("NM_MUN" = "municipio")
+  )
+
+principais_brs <- acidentes %>%
+  count(br, sort = TRUE) %>%
+  filter(!is.na(br)) %>%
+  slice_head(n = 6) %>%
+  pull(br)
+
+rodovias <- opq(
+  bbox = c(
+    -51.1,
+    -23.0,
+    -39.8,
+    -14.2
+  ),
+  timeout = 120
+) %>%
+  
+  add_osm_feature(
+    key = "ref",
+    value = principais_brs
+  ) %>%
+  
+  osmdata_sf()
+
+top10 <- mapa_final %>%
+  slice_max(n, n = 10)
+
+centros <- st_centroid(top10)
+
+ggplot(mapa_final) +
+  
+  geom_sf(
+    aes(fill = n),
+    color = "gray75",
+    size = 0.05
+  ) +
+  
+  geom_sf(
+    fill = NA,
+    color = "black",
+    size = 0.15
+  ) +
+  
+  scale_fill_gradient(
+    low = "#dbe9f6",
+    high = "#08519c",
+    na.value = "gray95"
+  ) +
+  
+  coord_sf(
+  xlim = c(-51, -40),
+  ylim = c(-23, -14),
+  expand = FALSE
+) +
+  
+  labs(
+    title = "Distribuição de acidentes por município em Minas Gerais",
+    fill = "Acidentes"
+  ) +
+  
+  theme_minimal() +
+  
+  theme(
+    
+    plot.title = element_text(
+      size = 16,
+      face = "bold",
+      hjust = 0.5
+    ),
+    
+    legend.position = "bottom",
+    
+    legend.title = element_text(
+      face = "bold"
+    ),
+    
+    axis.text = element_blank(),
+    
+    axis.title = element_blank(),
+    
+    axis.ticks = element_blank(),
+    
+    panel.grid = element_blank(),
+    
+    panel.border = element_blank(),
+    
+    plot.margin = margin(
+      5, 5, 5, 5
+    )
+    
+  )
+
+```
 
 # 5 Conclusão
