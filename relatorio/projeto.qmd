@@ -538,56 +538,10 @@ Em relação ao `periodo` do dia, observa-se maior incidência de acidentes dura
 #| warning: false
 #| message: false
 
-
-
 library(sf)
 library(dplyr)
 library(ggplot2)
 library(stringr)
-library(viridis)
-library(ggrepel)
-library(osmdata)
-
-tema_projeto <- function(){
-  
-  theme_classic() +
-    
-    theme(
-      
-      plot.title = element_text(
-        size = 14,
-        face = "bold",
-        hjust = 0.5,
-        margin = margin(b = 12)
-      ),
-      
-      axis.title = element_text(
-        size = 11
-      ),
-      
-      axis.text = element_text(
-        size = 10,
-        color = "black"
-      ),
-      
-      legend.position = "bottom",
-      
-      legend.title = element_text(
-        face = "bold"
-      ),
-      
-      panel.border = element_blank(),
-      
-      plot.margin = margin(
-        15, 15, 15, 15
-      )
-      
-    )
-  
-}
-#| echo: false
-#| warning: false
-#| message: false
 
 mg <- st_read(
   "C:/Users/Usuario/Downloads/MG_Municipios_2025/MG_Municipios_2025.shp",
@@ -604,7 +558,13 @@ ac_por_muni$municipio <- str_to_upper(
 mg$NM_MUN <- str_to_upper(
   mg$NM_MUN
 )
-mapa_final <- mapa_final %>%
+
+mapa_final <- mg %>%
+  
+  left_join(
+    ac_por_muni,
+    by = c("NM_MUN" = "municipio")
+  ) %>%
   
   mutate(
     
@@ -684,10 +644,6 @@ ggplot(mapa_final) +
     
     legend.text = element_text(
       size = 9
-    ),
-    
-    plot.margin = margin(
-      10, 10, 10, 10
     )
     
   )
