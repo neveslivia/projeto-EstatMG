@@ -270,7 +270,7 @@ longitude                           longitude                0</code></pre>
 <h3 class="anchored" data-anchor-id="váriáveis-numéricas">4.1.1 Váriáveis numéricas</h3>
 <section id="pessoas" class="level4">
 <h4 class="anchored" data-anchor-id="pessoas">Pessoas</h4>
-<p>A variável pessoas representa a quantidade de indivíduos envolvidos em cada acidente registrado. Para compreender sua distribuição, foram utilizadas medidas descritivas e gráficos de distribuição.</p>
+<p>A variável <code>pessoas</code> representa a quantidade de indivíduos envolvidos em cada acidente registrado.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -332,13 +332,12 @@ longitude                           longitude                0</code></pre>
 </div>
 </div>
 </div>
-<p>Observa-se que a maior parte dos acidentes envolve entre uma e três pessoas, indicando concentração dos valores em faixas mais baixas. A mediana igual a 2 demonstra que metade dos acidentes possui até duas pessoas envolvidas, enquanto a outra metade apresenta valores superiores.</p>
-<p>Além disso, o boxplot evidencia a presença de diversos valores extremos (outliers), indicando ocorrências menos frequentes com elevado número de pessoas envolvidas.</p>
-<p>A proximidade entre média (2,23) e mediana (2) sugere que, apesar da presença de outliers, a distribuição não apresenta assimetria muito acentuada.</p>
+<p>Observa-se concentração dos valores entre uma e três pessoas, com mediana igual a 2, indicando que metade dos acidentes possui até duas pessoas envolvidas.</p>
+<p>Além disso, o boxplot evidencia a presença de valores extremos (outliers), indicando ocorrências menos frequentes com elevado número de pessoas envolvidas. A proximidade entre média e mediana sugere distribuição sem forte assimetria.</p>
 </section>
 <section id="feridos-levesgraves" class="level4">
 <h4 class="anchored" data-anchor-id="feridos-levesgraves">Feridos( leves/graves)</h4>
-<p>As variáveis feridos, feridos_leves e feridos_graves indicam a quantidade de pessoas atingidas nos acidentes e a gravidade dos ferimentos.</p>
+<p>As variáveis <code>feridos</code>, <code>feridos_leves</code> e <code>feridos_graves</code> representam a quantidade de pessoas atingidas nos acidentes e a gravidade dos ferimentos.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -518,14 +517,12 @@ longitude                           longitude                0</code></pre>
 </div>
 </div>
 </div>
-<p>Em relação à variável feridos, nota-se que a quantidade de pessoas feridas nos acidentes se concentra principalmente entre zero e duas pessoas. A mediana igual a 1 indica que pelo menos metade dos acidentes apresenta até um ferido.</p>
-<p>Com base no boxplot, é possível observar a presença de valores extremos (outliers), indicando poucos acidentes com quantidade elevada de feridos.</p>
-<p>A variável feridos_leves apresenta concentração em valores baixos, principalmente entre zero e um ferido leve por acidente. Além disso, a proximidade entre média e mediana sugere distribuição relativamente concentrada nos valores centrais.</p>
-<p>Já a variável feridos_graves apresenta forte concentração entre zero e um ferido grave, sendo o valor zero o mais frequente. Também é possível observar a presença de diversos valores extremos, indicando acidentes menos frequentes com maior número de feridos graves.</p>
+<p>Na variável <code>feridos</code>, observa-se concentração entre zero e duas pessoas feridas por acidente, com mediana igual a 1. O boxplot também evidencia a presença de valores extremos, indicando acidentes menos frequentes com maior número de vítimas.</p>
+<p>A variável <code>feridos_leves</code> apresenta maior concentração entre zero e um ferido leve, enquanto <code>feridos_graves</code> possui predominância de valores iguais a zero, indicando que a maioria dos acidentes não resultou em ferimentos graves. Em ambas as variáveis, observa-se presença de outliers relacionados a acidentes mais severos.</p>
 </section>
 <section id="mortos" class="level4">
 <h4 class="anchored" data-anchor-id="mortos">Mortos</h4>
-<p>A variável mortos indica a quantidade de vítimas fatais nos acidentes.</p>
+<p>A variável <code>mortos</code> representa a quantidade de vítimas fatais nos acidentes.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -587,11 +584,11 @@ longitude                           longitude                0</code></pre>
 </div>
 </div>
 </div>
-<p>Ao analisar essa variável, percebe-se que a grande maioria dos acidentes não resultou em vítimas fatais. Entretanto, o boxplot evidencia a presença de valores extremos (outliers), indicando a ocorrência de acidentes mais graves, embora menos frequentes.</p>
+<p>Observa-se que a maior parte das ocorrências não resultou em mortes. Entretanto, o boxplot evidencia valores extremos, indicando acidentes mais graves, embora menos frequentes.</p>
 </section>
 <section id="ilesos" class="level4">
 <h4 class="anchored" data-anchor-id="ilesos">Ilesos</h4>
-<p>A variável ilesos representa a quantidade de pessoas envolvidas nos acidentes que não sofreram ferimentos.</p>
+<p>A variável <code>ilesos</code> representa a quantidade de pessoas envolvidas nos acidentes que não sofreram ferimentos.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -653,12 +650,11 @@ longitude                           longitude                0</code></pre>
 </div>
 </div>
 </div>
-<p>Observa-se que, na maior parte dos acidentes, entre zero e uma pessoa saiu ilesa. Além disso, a proximidade entre média e mediana sugere distribuição relativamente simétrica dos dados.</p>
-<p>Ao analisar o boxplot, percebe-se também a presença de diversos valores extremos (outliers), indicando acidentes com maior quantidade de pessoas ilesas.</p>
+<p>Observa-se concentração entre zero e uma pessoa ilesa por ocorrência, além de relativa proximidade entre média e mediana, sugerindo distribuição relativamente equilibrada. O boxplot também evidencia alguns valores extremos.</p>
 </section>
 <section id="veículos" class="level4">
 <h4 class="anchored" data-anchor-id="veículos">Veículos</h4>
-<p>A variável veiculos representa a quantidade de veículos envolvidos em cada acidente.</p>
+<p>A variável <code>veiculos</code> representa a quantidade de veículos envolvidos em cada acidente.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -720,14 +716,14 @@ longitude                           longitude                0</code></pre>
 </div>
 </div>
 </div>
-<p>Ao observar os gráficos e os resumos estatísticos da variável, percebe-se que a maior parte dos acidentes envolveu entre um e dois veículos. A mediana igual a 1 indica que, em pelo menos metade dos acidentes registrados, apenas um veículo estava envolvido.</p>
-<p>Além disso, o boxplot evidencia a presença de alguns valores extremos, indicando acidentes com quantidade significativamente maior de veículos envolvidos.</p>
+<p>Observa-se predominância de acidentes envolvendo um ou dois veículos, com mediana igual a 1.</p>
+<p>Além disso, o boxplot evidencia a presença de valores extremos, indicando acidentes menos frequentes com maior número de veículos envolvidos.</p>
 </section>
 </section>
 <section id="variáveis-categóricas" class="level3">
 <h3 class="anchored" data-anchor-id="variáveis-categóricas">4.1.2 Variáveis categóricas</h3>
 <p>Condição metereológica</p>
-<p>A variável condicao_meteorologica representa as condições climáticas no momento em que o acidente ocorreu.</p>
+<p>A variável <code>periodo</code> representa o período do dia em que o acidente ocorreu.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -776,10 +772,10 @@ longitude                           longitude                0</code></pre>
 </div>
 </div>
 </div>
-<p>Observa-se que a maior parte dos acidentes aconteceu em situações de céu claro, totalizando 3.960 ocorrências. Em seguida, destacam-se os acidentes ocorridos em condições de céu nublado, com 1.225 registros.</p>
-<p>Por outro lado, condições como nevoeiro ou neblina apresentaram baixa frequência de acidentes, sendo as categorias com menor número de ocorrências na base analisada.</p>
+<p>Observa-se maior concentração de acidentes nos períodos da tarde e da manhã. O período da tarde concentrou 2.218 ocorrências (33,9%), enquanto a manhã apresentou 2.000 registros (30,6%).</p>
+<p>Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com 572 ocorrências (8,75%).</p>
 <p>Tipo de pista</p>
-<p>A variável tipo_pista indica a configuração da rodovia onde ocorreu o acidente.</p>
+<p>A variável <code>tipo_pista</code> indica a configuração da rodovia onde ocorreu o acidente.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -818,11 +814,10 @@ longitude                           longitude                0</code></pre>
 </div>
 </div>
 </div>
-<p>Observa-se predominância de acidentes em pistas simples, correspondendo a aproximadamente 51% das ocorrências registradas. Esse resultado sugere maior concentração de acidentes em rodovias com esse tipo de configuração.<br>
-<br>
-Já as pistas múltiplas apresentaram menor frequência de acidentes, totalizando apenas 211 ocorrências.</p>
+<p>Observa-se predominância de acidentes em pistas simples, correspondendo a aproximadamente 51% das ocorrências registradas.</p>
+<p>Já as pistas múltiplas apresentaram menor frequência de acidentes, totalizando 211 registros.</p>
 <p>Período</p>
-<p>A variável periodo representa o período do dia em que o acidente ocorreu.</p>
+<p>A variável <code>periodo</code> representa o período do dia em que o acidente ocorreu.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| warning: false</span></span>
@@ -871,11 +866,10 @@ Já as pistas múltiplas apresentaram menor frequência de acidentes, totalizand
 </div>
 </div>
 </div>
-<p>Observa-se que a maior parte dos acidentes aconteceu nos períodos da tarde e da manhã. O período da tarde concentrou 2.218 ocorrências, correspondendo a aproximadamente 33,9% dos acidentes, enquanto o período da manhã apresentou 2.000 registros, representando cerca de 30,6% das ocorrências.<br>
-<br>
-Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com apenas 572 ocorrências, correspondendo a aproximadamente 8,75% do total.</p>
+<p>Observa-se maior concentração de acidentes nos períodos da tarde e da manhã. O período da tarde concentrou 2.218 ocorrências (33,9%), enquanto a manhã apresentou 2.000 registros (30,6%).</p>
+<p>Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com 572 ocorrências (8,75%).</p>
 <p>Dia da semana</p>
-<p>A variável dia_semana representa o dia da semana em que os acidentes ocorreram.</p>
+<p>A variável <code>dia_semana</code> representa o dia da semana em que os acidentes ocorreram.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -934,11 +928,11 @@ Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com ap
 </div>
 </div>
 </div>
-<p>Observa-se maior concentração de acidentes nos finais de semana e na sexta-feira. O sábado apresentou o maior número de ocorrências, com 1.101 acidentes, correspondendo a aproximadamente 16,9% do total. Em seguida, destacam-se a sexta-feira e o domingo, com aproximadamente 16,2% e 16,1% das ocorrências, respectivamente.<br>
-<br>
-Por outro lado, a terça-feira apresentou a menor frequência de acidentes, com 794 registros, correspondendo a cerca de 12,2% das ocorrências.</p>
+<p>Observa-se maior concentração de acidentes aos finais de semana e na sexta-feira.</p>
+<p>O sábado apresentou o maior número de ocorrências, com 1.101 acidentes (16,9%). Em seguida, destacam-se sexta-feira e domingo, com aproximadamente 16,2% e 16,1% das ocorrências, respectivamente.</p>
+<p>Já a terça-feira apresentou a menor frequência de acidentes, com 794 registros (12,2%).</p>
 <p>Tipo de acidente</p>
-<p>A variável tipo_acidente representa a classificação do acidente registrado.</p>
+<p>A variável <code>tipo_acidente</code> representa a classificação do acidente registrado.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -1022,11 +1016,10 @@ Por outro lado, a terça-feira apresentou a menor frequência de acidentes, com 
 </div>
 </div>
 </div>
-<p>Observa-se predominância de acidentes do tipo saída de leito carroçável, correspondendo a aproximadamente 25% das ocorrências, com 1.682 registros. Em seguida, destacam-se os acidentes do tipo colisão traseira, com 1.066 ocorrências, representando cerca de 16,3% do total.<br>
-<br>
-Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizando apenas 83 ocorrências na base analisada.</p>
+<p>Observa-se predominância de acidentes do tipo saída de leito carroçável, com 1.682 ocorrências (aproximadamente 25% do total).</p>
+<p>Em seguida, destacam-se as colisões traseiras, com 1.066 registros (16,3%). Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizando 83 ocorrências.</p>
 <p>BR</p>
-<p>A variável br representa a rodovia na qual o acidente ocorreu.</p>
+<p>A variável <code>br</code> representa a rodovia onde o acidente ocorreu.</p>
 <div class="cell">
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -1135,9 +1128,10 @@ Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizan
 </div>
 </div>
 </div>
-<p>Observa-se que a maior parte dos acidentes ocorreu na BR-381, correspondendo a aproximadamene 30% das ocorrências, com 1948 registros. Já a BR-352 apresenta baixa ocorrência de acidentes, houve apenas uma.</p>
+<p>Observa-se predominância de acidentes na BR-381, com aproximadamente 30% das ocorrências registradas (1.948 acidentes).</p>
+<p>Por outro lado, a BR-352 apresentou apenas um registro de acidente na base analisada.</p>
 <p>Município</p>
-<p>A variável município represenda a cidade onde ocorreu o acidente.</p>
+<p>A variável <code>municipio</code> representa a cidade onde ocorreu o acidente.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -1147,7 +1141,8 @@ Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizan
 </div>
 </div>
 </div>
-<p>Para essa variável, foi utilizado um gráfico com os dez municípios com maior número de ocorrências de acidentes. Com base no gráfico, observa-se que o município com maior quantidade de acidentes é Betim, com 388 ocorrências. Em contraste, o município com menor incidência entre os dez apresentados é Teófilo Otoni, com 98 acidentes.</p>
+<p>Para essa análise, foi utilizado um gráfico com os dez municípios com maior número de ocorrências.</p>
+<p>Observa-se que Betim apresentou a maior quantidade de acidentes, com 388 registros. Já Teófilo Otoni apresentou a menor frequência entre os municípios do top 10, com 98 ocorrências.</p>
 </section>
 </section>
 <section id="análise-bivariada" class="level2">
@@ -1244,10 +1239,9 @@ Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizan
 </div>
 </div>
 </div>
-<p>Ao analisar a distribuição temporal dos acidentes ao longo dos meses do ano, observa-se que o mês de dezembro apresenta a maior quantidade de ocorrências registradas, indicando um pico significativo no número de acidentes nesse período. Em seguida, destaca-se o mês de outubro como o segundo com maior incidência de acidentes. Os meses de setembro e janeiro também apresentam valores elevados e bastante próximos entre si.</p>
-<p>Por outro lado, o mês de abril apresenta a menor quantidade de acidentes registrados, representando o ponto de menor incidência ao longo do ano.</p>
-<p>Observando o comportamento temporal da série, percebe-se uma redução gradual no número de acidentes entre janeiro e abril, período em que é atingido o menor valor observado. A partir de maio ocorre uma elevação significativa nas ocorrências, seguida por certa estabilidade entre maio e junho.</p>
-<p>Entre julho e agosto observa-se um novo aumento mais acentuado na quantidade de acidentes, enquanto entre agosto, setembro e outubro o crescimento continua de forma mais moderada. Já entre outubro e novembro ocorre uma queda significativa nas ocorrências, seguida por um novo aumento expressivo em dezembro, mês que concentra o maior número de acidentes registrados.</p>
+<p>Ao analisar a distribuição temporal dos acidentes ao longo dos meses do ano, observa-se que dezembro apresenta a maior quantidade de ocorrências registradas. Em seguida, destacam-se os meses de outubro, setembro e janeiro.</p>
+<p>Por outro lado, abril apresentou o menor número de acidentes registrados ao longo do ano.</p>
+<p>Observando o comportamento da série temporal, percebe-se redução gradual no número de acidentes entre janeiro e abril. A partir de maio, ocorre aumento nas ocorrências, com crescimento mais acentuado entre julho e agosto. Após queda observada em novembro, dezembro volta a apresentar forte elevação, concentrando o maior número de acidentes do período analisado.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -1257,10 +1251,8 @@ Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizan
 </div>
 </div>
 </div>
-<p>Ao analisar a distribuição de acidentes por dia da semana, observa-se que o sábado apresenta a maior quantidade de ocorrências registradas, sendo o dia com maior incidência de acidentes. Em seguida, destacam-se a sexta-feira e o domingo, que apresentam valores bastante próximos, embora a sexta-feira possua quantidade ligeiramente superior.</p>
-<p>Dessa forma, percebe-se que os acidentes se concentram principalmente no período correspondente ao final de semana, especialmente entre sexta-feira, sábado e domingo.</p>
-<p>Já nos demais dias da semana, segunda-feira, quinta-feira, quarta-feira e terça-feira apresentam quantidades relativamente semelhantes de acidentes, com menor variação entre si. Entre esses dias, a terça-feira corresponde ao menor número de ocorrências registradas.</p>
-<p>De maneira geral, a ordem dos dias com maior incidência de acidentes, do mais frequente para o menos frequente, é: sábado, sexta-feira, domingo, segunda-feira, quinta-feira, quarta-feira e terça-feira.</p>
+<p>Na distribuição de acidentes por <code>dia_semana</code>, observa-se maior concentração aos finais de semana. O sábado apresentou a maior quantidade de ocorrências, seguido por sexta-feira e domingo.</p>
+<p>Já segunda-feira, quinta-feira, quarta-feira e terça-feira apresentaram quantidades relativamente semelhantes de acidentes, sendo terça-feira o dia com menor número de registros.</p>
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -1270,8 +1262,7 @@ Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizan
 </div>
 </div>
 </div>
-<p>A maior incidência de acidentes ocorre no período da tarde, seguido pelo período da manhã. Em seguida, observa-se uma redução no período da noite, enquanto a madrugada apresenta a menor quantidade de registros.</p>
-<p>Nota-se uma diferença bastante expressiva entre a tarde e a madrugada, evidenciando uma concentração de acidentes no período vespertino. A diferença entre tarde e manhã, embora existente, é menos acentuada. Já entre manhã e noite, a variação é moderada e semelhante à observada entre noite e madrugada. Em síntese, o período da tarde se destaca como o de maior ocorrência de acidentes, enquanto a madrugada apresenta os menores índices.</p>
+<p>Em relação ao <code>periodo</code> do dia, observa-se maior incidência de acidentes durante a tarde, seguida pela manhã. O período da madrugada apresentou a menor quantidade de ocorrências registradas.</p>
 </section>
 <section id="análise-espacial" class="level2">
 <h2 class="anchored" data-anchor-id="análise-espacial">4.4 Análise espacial</h2>
@@ -1286,8 +1277,8 @@ Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizan
 </div>
 </section>
 </section>
-<section id="conclusão" class="level1">
-<h1>5 Conclusão</h1>
+<section id="section" class="level1">
+<h1></h1>
 </section>
 
 </main>

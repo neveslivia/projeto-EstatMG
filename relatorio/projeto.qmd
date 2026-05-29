@@ -182,7 +182,7 @@ Para as variáveis numéricas, foram utilizadas medidas descritivas, gráficos d
 
 #### Pessoas
 
-A variável pessoas representa a quantidade de indivíduos envolvidos em cada acidente registrado. Para compreender sua distribuição, foram utilizadas medidas descritivas e gráficos de distribuição.
+A variável `pessoas` representa a quantidade de indivíduos envolvidos em cada acidente registrado.
 
 ```{r}
 #| echo: false
@@ -194,15 +194,13 @@ criar_boxplot(acidentes, "pessoas")
 
 ```
 
-Observa-se que a maior parte dos acidentes envolve entre uma e três pessoas, indicando concentração dos valores em faixas mais baixas. A mediana igual a 2 demonstra que metade dos acidentes possui até duas pessoas envolvidas, enquanto a outra metade apresenta valores superiores.
+Observa-se concentração dos valores entre uma e três pessoas, com mediana igual a 2, indicando que metade dos acidentes possui até duas pessoas envolvidas.
 
-Além disso, o boxplot evidencia a presença de diversos valores extremos (outliers), indicando ocorrências menos frequentes com elevado número de pessoas envolvidas.
-
-A proximidade entre média (2,23) e mediana (2) sugere que, apesar da presença de outliers, a distribuição não apresenta assimetria muito acentuada.
+Além disso, o boxplot evidencia a presença de valores extremos (outliers), indicando ocorrências menos frequentes com elevado número de pessoas envolvidas. A proximidade entre média e mediana sugere distribuição sem forte assimetria.
 
 #### Feridos( leves/graves)
 
-As variáveis feridos, feridos_leves e feridos_graves indicam a quantidade de pessoas atingidas nos acidentes e a gravidade dos ferimentos.
+As variáveis `feridos`, `feridos_leves` e `feridos_graves` representam a quantidade de pessoas atingidas nos acidentes e a gravidade dos ferimentos.
 
 ```{r}
 #| echo: false
@@ -226,17 +224,13 @@ criar_boxplot(acidentes, "feridos_graves")
 
 ```
 
-Em relação à variável feridos, nota-se que a quantidade de pessoas feridas nos acidentes se concentra principalmente entre zero e duas pessoas. A mediana igual a 1 indica que pelo menos metade dos acidentes apresenta até um ferido.
+Na variável `feridos`, observa-se concentração entre zero e duas pessoas feridas por acidente, com mediana igual a 1. O boxplot também evidencia a presença de valores extremos, indicando acidentes menos frequentes com maior número de vítimas.
 
-Com base no boxplot, é possível observar a presença de valores extremos (outliers), indicando poucos acidentes com quantidade elevada de feridos.
-
-A variável feridos_leves apresenta concentração em valores baixos, principalmente entre zero e um ferido leve por acidente. Além disso, a proximidade entre média e mediana sugere distribuição relativamente concentrada nos valores centrais.
-
-Já a variável feridos_graves apresenta forte concentração entre zero e um ferido grave, sendo o valor zero o mais frequente. Também é possível observar a presença de diversos valores extremos, indicando acidentes menos frequentes com maior número de feridos graves.
+A variável `feridos_leves` apresenta maior concentração entre zero e um ferido leve, enquanto `feridos_graves` possui predominância de valores iguais a zero, indicando que a maioria dos acidentes não resultou em ferimentos graves. Em ambas as variáveis, observa-se presença de outliers relacionados a acidentes mais severos.
 
 #### Mortos
 
-A variável mortos indica a quantidade de vítimas fatais nos acidentes.
+A variável `mortos` representa a quantidade de vítimas fatais nos acidentes.
 
 ```{r}
 #| echo: false
@@ -248,11 +242,11 @@ criar_boxplot(acidentes, "mortos")
 
 ```
 
-Ao analisar essa variável, percebe-se que a grande maioria dos acidentes não resultou em vítimas fatais. Entretanto, o boxplot evidencia a presença de valores extremos (outliers), indicando a ocorrência de acidentes mais graves, embora menos frequentes.
+Observa-se que a maior parte das ocorrências não resultou em mortes. Entretanto, o boxplot evidencia valores extremos, indicando acidentes mais graves, embora menos frequentes.
 
 #### Ilesos
 
-A variável ilesos representa a quantidade de pessoas envolvidas nos acidentes que não sofreram ferimentos.
+A variável `ilesos` representa a quantidade de pessoas envolvidas nos acidentes que não sofreram ferimentos.
 
 ```{r}
 #| echo: false
@@ -264,13 +258,11 @@ criar_boxplot(acidentes, "ilesos")
 
 ```
 
-Observa-se que, na maior parte dos acidentes, entre zero e uma pessoa saiu ilesa. Além disso, a proximidade entre média e mediana sugere distribuição relativamente simétrica dos dados.
-
-Ao analisar o boxplot, percebe-se também a presença de diversos valores extremos (outliers), indicando acidentes com maior quantidade de pessoas ilesas.
+Observa-se concentração entre zero e uma pessoa ilesa por ocorrência, além de relativa proximidade entre média e mediana, sugerindo distribuição relativamente equilibrada. O boxplot também evidencia alguns valores extremos.
 
 #### Veículos
 
-A variável veiculos representa a quantidade de veículos envolvidos em cada acidente.
+A variável `veiculos` representa a quantidade de veículos envolvidos em cada acidente.
 
 ```{r}
 #| echo: false
@@ -281,15 +273,15 @@ criar_barplot_numerico(acidentes, "veiculos")
 criar_boxplot(acidentes, "veiculos")
 ```
 
-Ao observar os gráficos e os resumos estatísticos da variável, percebe-se que a maior parte dos acidentes envolveu entre um e dois veículos. A mediana igual a 1 indica que, em pelo menos metade dos acidentes registrados, apenas um veículo estava envolvido.
+Observa-se predominância de acidentes envolvendo um ou dois veículos, com mediana igual a 1.
 
-Além disso, o boxplot evidencia a presença de alguns valores extremos, indicando acidentes com quantidade significativamente maior de veículos envolvidos.
+Além disso, o boxplot evidencia a presença de valores extremos, indicando acidentes menos frequentes com maior número de veículos envolvidos.
 
 ### 4.1.2 Variáveis categóricas
 
 Condição metereológica
 
-A variável condicao_meteorologica representa as condições climáticas no momento em que o acidente ocorreu.
+A variável `periodo` representa o período do dia em que o acidente ocorreu.
 
 ```{r}
 #| echo: false
@@ -300,13 +292,13 @@ criar_barplot_numerico(acidentes,"condicao_metereologica")
 
 ```
 
-Observa-se que a maior parte dos acidentes aconteceu em situações de céu claro, totalizando 3.960 ocorrências. Em seguida, destacam-se os acidentes ocorridos em condições de céu nublado, com 1.225 registros.
+Observa-se maior concentração de acidentes nos períodos da tarde e da manhã. O período da tarde concentrou 2.218 ocorrências (33,9%), enquanto a manhã apresentou 2.000 registros (30,6%).
 
-Por outro lado, condições como nevoeiro ou neblina apresentaram baixa frequência de acidentes, sendo as categorias com menor número de ocorrências na base analisada.
+Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com 572 ocorrências (8,75%).
 
 Tipo de pista
 
-A variável tipo_pista indica a configuração da rodovia onde ocorreu o acidente.
+A variável `tipo_pista` indica a configuração da rodovia onde ocorreu o acidente.
 
 ```{r}
 #| echo: false
@@ -317,13 +309,13 @@ criar_barplot_numerico(acidentes,"tipo_pista" )
 
 ```
 
-Observa-se predominância de acidentes em pistas simples, correspondendo a aproximadamente 51% das ocorrências registradas. Esse resultado sugere maior concentração de acidentes em rodovias com esse tipo de configuração.\
-\
-Já as pistas múltiplas apresentaram menor frequência de acidentes, totalizando apenas 211 ocorrências.
+Observa-se predominância de acidentes em pistas simples, correspondendo a aproximadamente 51% das ocorrências registradas.
+
+Já as pistas múltiplas apresentaram menor frequência de acidentes, totalizando 211 registros.
 
 Período
 
-A variável periodo representa o período do dia em que o acidente ocorreu.
+A variável `periodo` representa o período do dia em que o acidente ocorreu.
 
 ```{r}
 
@@ -335,13 +327,13 @@ criar_barplot_numerico(acidentes,"periodo")
 
 ```
 
-Observa-se que a maior parte dos acidentes aconteceu nos períodos da tarde e da manhã. O período da tarde concentrou 2.218 ocorrências, correspondendo a aproximadamente 33,9% dos acidentes, enquanto o período da manhã apresentou 2.000 registros, representando cerca de 30,6% das ocorrências.\
-\
-Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com apenas 572 ocorrências, correspondendo a aproximadamente 8,75% do total.
+Observa-se maior concentração de acidentes nos períodos da tarde e da manhã. O período da tarde concentrou 2.218 ocorrências (33,9%), enquanto a manhã apresentou 2.000 registros (30,6%).
+
+Em contrapartida, a madrugada apresentou a menor quantidade de acidentes, com 572 ocorrências (8,75%).
 
 Dia da semana
 
-A variável dia_semana representa o dia da semana em que os acidentes ocorreram.
+A variável `dia_semana` representa o dia da semana em que os acidentes ocorreram.
 
 ```{r}
 #| echo: false
@@ -353,13 +345,15 @@ criar_barplot_numerico(acidentes,"dia_semana")
 
 ```
 
-Observa-se maior concentração de acidentes nos finais de semana e na sexta-feira. O sábado apresentou o maior número de ocorrências, com 1.101 acidentes, correspondendo a aproximadamente 16,9% do total. Em seguida, destacam-se a sexta-feira e o domingo, com aproximadamente 16,2% e 16,1% das ocorrências, respectivamente.\
-\
-Por outro lado, a terça-feira apresentou a menor frequência de acidentes, com 794 registros, correspondendo a cerca de 12,2% das ocorrências.
+Observa-se maior concentração de acidentes aos finais de semana e na sexta-feira.
+
+O sábado apresentou o maior número de ocorrências, com 1.101 acidentes (16,9%). Em seguida, destacam-se sexta-feira e domingo, com aproximadamente 16,2% e 16,1% das ocorrências, respectivamente.
+
+Já a terça-feira apresentou a menor frequência de acidentes, com 794 registros (12,2%).
 
 Tipo de acidente
 
-A variável tipo_acidente representa a classificação do acidente registrado.
+A variável `tipo_acidente` representa a classificação do acidente registrado.
 
 ```{r}
 #| echo: false
@@ -371,13 +365,13 @@ criar_barplot(acidentes,"tipo_acidente" )
 
 ```
 
-Observa-se predominância de acidentes do tipo saída de leito carroçável, correspondendo a aproximadamente 25% das ocorrências, com 1.682 registros. Em seguida, destacam-se os acidentes do tipo colisão traseira, com 1.066 ocorrências, representando cerca de 16,3% do total.\
-\
-Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizando apenas 83 ocorrências na base analisada.
+Observa-se predominância de acidentes do tipo saída de leito carroçável, com 1.682 ocorrências (aproximadamente 25% do total).
+
+Em seguida, destacam-se as colisões traseiras, com 1.066 registros (16,3%). Já os acidentes do tipo engavetamento apresentaram menor frequência, totalizando 83 ocorrências.
 
 BR
 
-A variável br representa a rodovia na qual o acidente ocorreu.
+A variável `br` representa a rodovia onde o acidente ocorreu.
 
 ```{r}
 #| echo: false
@@ -387,11 +381,13 @@ analise_categorica(acidentes, "br")
 criar_barplot(acidentes, "br")
 ```
 
-Observa-se que a maior parte dos acidentes ocorreu na BR-381, correspondendo a aproximadamene 30% das ocorrências, com 1948 registros. Já a BR-352 apresenta baixa ocorrência de acidentes, houve apenas uma.
+Observa-se predominância de acidentes na BR-381, com aproximadamente 30% das ocorrências registradas (1.948 acidentes).
+
+Por outro lado, a BR-352 apresentou apenas um registro de acidente na base analisada.
 
 Município
 
-A variável município represenda a cidade onde ocorreu o acidente.
+A variável `municipio` representa a cidade onde ocorreu o acidente.
 
 ```{r}
 #| echo: false
@@ -400,7 +396,9 @@ A variável município represenda a cidade onde ocorreu o acidente.
 plot_top10(acidentes, "municipio", "Top 10 Municípios")
 ```
 
-Para essa variável, foi utilizado um gráfico com os dez municípios com maior número de ocorrências de acidentes. Com base no gráfico, observa-se que o município com maior quantidade de acidentes é Betim, com 388 ocorrências. Em contraste, o município com menor incidência entre os dez apresentados é Teófilo Otoni, com 98 acidentes.
+Para essa análise, foi utilizado um gráfico com os dez municípios com maior número de ocorrências.
+
+Observa-se que Betim apresentou a maior quantidade de acidentes, com 388 registros. Já Teófilo Otoni apresentou a menor frequência entre os municípios do top 10, com 98 ocorrências.
 
 ## 4.2 Análise bivariada
 
@@ -507,13 +505,11 @@ No período da noite, observa-se uma distribuição mais equilibrada entre os ti
 criar_grafico_temporal(acidentes, "mes")
 ```
 
-Ao analisar a distribuição temporal dos acidentes ao longo dos meses do ano, observa-se que o mês de dezembro apresenta a maior quantidade de ocorrências registradas, indicando um pico significativo no número de acidentes nesse período. Em seguida, destaca-se o mês de outubro como o segundo com maior incidência de acidentes. Os meses de setembro e janeiro também apresentam valores elevados e bastante próximos entre si.
+Ao analisar a distribuição temporal dos acidentes ao longo dos meses do ano, observa-se que dezembro apresenta a maior quantidade de ocorrências registradas. Em seguida, destacam-se os meses de outubro, setembro e janeiro.
 
-Por outro lado, o mês de abril apresenta a menor quantidade de acidentes registrados, representando o ponto de menor incidência ao longo do ano.
+Por outro lado, abril apresentou o menor número de acidentes registrados ao longo do ano.
 
-Observando o comportamento temporal da série, percebe-se uma redução gradual no número de acidentes entre janeiro e abril, período em que é atingido o menor valor observado. A partir de maio ocorre uma elevação significativa nas ocorrências, seguida por certa estabilidade entre maio e junho.
-
-Entre julho e agosto observa-se um novo aumento mais acentuado na quantidade de acidentes, enquanto entre agosto, setembro e outubro o crescimento continua de forma mais moderada. Já entre outubro e novembro ocorre uma queda significativa nas ocorrências, seguida por um novo aumento expressivo em dezembro, mês que concentra o maior número de acidentes registrados.
+Observando o comportamento da série temporal, percebe-se redução gradual no número de acidentes entre janeiro e abril. A partir de maio, ocorre aumento nas ocorrências, com crescimento mais acentuado entre julho e agosto. Após queda observada em novembro, dezembro volta a apresentar forte elevação, concentrando o maior número de acidentes do período analisado.
 
 ```{r}
 #| echo: false
@@ -522,13 +518,9 @@ Entre julho e agosto observa-se um novo aumento mais acentuado na quantidade de 
 criar_barplot(acidentes,"dia_semana")
 ```
 
-Ao analisar a distribuição de acidentes por dia da semana, observa-se que o sábado apresenta a maior quantidade de ocorrências registradas, sendo o dia com maior incidência de acidentes. Em seguida, destacam-se a sexta-feira e o domingo, que apresentam valores bastante próximos, embora a sexta-feira possua quantidade ligeiramente superior.
+Na distribuição de acidentes por `dia_semana`, observa-se maior concentração aos finais de semana. O sábado apresentou a maior quantidade de ocorrências, seguido por sexta-feira e domingo.
 
-Dessa forma, percebe-se que os acidentes se concentram principalmente no período correspondente ao final de semana, especialmente entre sexta-feira, sábado e domingo.
-
-Já nos demais dias da semana, segunda-feira, quinta-feira, quarta-feira e terça-feira apresentam quantidades relativamente semelhantes de acidentes, com menor variação entre si. Entre esses dias, a terça-feira corresponde ao menor número de ocorrências registradas.
-
-De maneira geral, a ordem dos dias com maior incidência de acidentes, do mais frequente para o menos frequente, é: sábado, sexta-feira, domingo, segunda-feira, quinta-feira, quarta-feira e terça-feira.
+Já segunda-feira, quinta-feira, quarta-feira e terça-feira apresentaram quantidades relativamente semelhantes de acidentes, sendo terça-feira o dia com menor número de registros.
 
 ```{r}
 #| echo: false
@@ -537,9 +529,7 @@ De maneira geral, a ordem dos dias com maior incidência de acidentes, do mais f
 criar_barplot(acidentes,"periodo")
 ```
 
-A maior incidência de acidentes ocorre no período da tarde, seguido pelo período da manhã. Em seguida, observa-se uma redução no período da noite, enquanto a madrugada apresenta a menor quantidade de registros.
-
-Nota-se uma diferença bastante expressiva entre a tarde e a madrugada, evidenciando uma concentração de acidentes no período vespertino. A diferença entre tarde e manhã, embora existente, é menos acentuada. Já entre manhã e noite, a variação é moderada e semelhante à observada entre noite e madrugada. Em síntese, o período da tarde se destaca como o de maior ocorrência de acidentes, enquanto a madrugada apresenta os menores índices.
+Em relação ao `periodo` do dia, observa-se maior incidência de acidentes durante a tarde, seguida pela manhã. O período da madrugada apresentou a menor quantidade de ocorrências registradas.
 
 ## 4.4 Análise espacial
 
@@ -614,80 +604,76 @@ ac_por_muni$municipio <- str_to_upper(
 mg$NM_MUN <- str_to_upper(
   mg$NM_MUN
 )
-
-mapa_final <- mg %>%
-  left_join(
-    ac_por_muni,
-    by = c("NM_MUN" = "municipio")
+mapa_final <- mapa_final %>%
+  
+  mutate(
+    
+    faixa = case_when(
+      
+      n >= 300 ~ "300+",
+      n >= 200 ~ "200 - 299",
+      n >= 100 ~ "100 - 199",
+      n >= 50  ~ "50 - 99",
+      n >= 1   ~ "1 - 49",
+      TRUE ~ "Sem registros"
+      
+    )
+    
   )
-
-principais_brs <- acidentes %>%
-  count(br, sort = TRUE) %>%
-  filter(!is.na(br)) %>%
-  slice_head(n = 6) %>%
-  pull(br)
-
-rodovias <- opq(
-  bbox = c(
-    -51.1,
-    -23.0,
-    -39.8,
-    -14.2
-  ),
-  timeout = 120
-) %>%
-  
-  add_osm_feature(
-    key = "ref",
-    value = principais_brs
-  ) %>%
-  
-  osmdata_sf()
-
-top10 <- mapa_final %>%
-  slice_max(n, n = 10)
-
-centros <- st_centroid(top10)
 
 ggplot(mapa_final) +
   
   geom_sf(
-    aes(fill = n),
-    color = "gray75",
-    size = 0.05
+    aes(fill = faixa),
+    color = "gray70",
+    size = 0.08
   ) +
   
-  geom_sf(
-    fill = NA,
-    color = "black",
-    size = 0.15
-  ) +
-  
-  scale_fill_gradient(
-    low = "#dbe9f6",
-    high = "#08519c",
-    na.value = "gray95"
+  scale_fill_manual(
+    
+    values = c(
+      
+      "300+" = "#084081",
+      "200 - 299" = "#0868ac",
+      "100 - 199" = "#2b8cbe",
+      "50 - 99" = "#7bccc4",
+      "1 - 49" = "#d9e6f2",
+      "Sem registros" = "#f5f5f5"
+      
+    )
+    
   ) +
   
   coord_sf(
-  xlim = c(-51, -40),
-  ylim = c(-23, -14),
-  expand = FALSE
-) +
-  
-  labs(
-    title = "Distribuição de acidentes por município em Minas Gerais",
-    fill = "Acidentes"
+    xlim = c(-51, -40),
+    ylim = c(-23, -14),
+    expand = FALSE
   ) +
   
-  theme_minimal() +
+  labs(
+    
+    title = "Distribuição de acidentes por município em Minas Gerais",
+    
+    subtitle = "Municípios classificados por faixa de acidentes",
+    
+    fill = "Acidentes"
+    
+  ) +
+  
+  theme_void() +
   
   theme(
     
     plot.title = element_text(
-      size = 16,
+      size = 18,
       face = "bold",
       hjust = 0.5
+    ),
+    
+    plot.subtitle = element_text(
+      size = 11,
+      hjust = 0.5,
+      color = "gray40"
     ),
     
     legend.position = "bottom",
@@ -696,22 +682,15 @@ ggplot(mapa_final) +
       face = "bold"
     ),
     
-    axis.text = element_blank(),
-    
-    axis.title = element_blank(),
-    
-    axis.ticks = element_blank(),
-    
-    panel.grid = element_blank(),
-    
-    panel.border = element_blank(),
+    legend.text = element_text(
+      size = 9
+    ),
     
     plot.margin = margin(
-      5, 5, 5, 5
+      10, 10, 10, 10
     )
     
   )
-
 ```
 
-# 5 Conclusão
+# 
