@@ -34,7 +34,6 @@
   margin-bottom: 10px;
 }
 
-/* Navbar */
 .navbar {
   background-color: #08519c !important;
 }
@@ -58,11 +57,59 @@
   border-radius: 10px;
 }
 
-/* Remove fundos brancos dos painéis */
 .card,
 .dashboard-card,
 .bslib-card {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+}
+.insight-box {
+  background: #f8f9fa;
+  border-left: 4px solid #0d6efd;
+  padding: 1rem;
+  border-radius: 4px;
+  height: 100%;
+}
+.insight-box h5 {
+  margin-bottom: 0.75rem;
+  color: #0d6efd;
+}
+
+.nav-tabs,
+.panel-tabset .nav-tabs {
+  border-bottom: 2px solid #3182bd;
+  gap: 4px;
+}
+
+.nav-tabs .nav-link,
+.panel-tabset .nav-tabs .nav-link {
+  color: #08519c !important;
+  background-color: #e8f1fb !important;
+  border: 1px solid #b8d4f0 !important;
+  border-bottom: none !important;
+  border-radius: 10px 10px 0 0 !important;
+  padding: 8px 18px;
+  font-weight: 500;
+  transition: background-color 0.25s ease, color 0.25s ease,
+              box-shadow 0.25s ease, transform 0.15s ease;
+}
+
+.nav-tabs .nav-link:hover,
+.panel-tabset .nav-tabs .nav-link:hover {
+  background-color: #6baed6 !important;
+  color: white !important;
+  border-color: #3182bd !important;
+  box-shadow: 0 -3px 8px rgba(49, 130, 189, 0.35);
+  transform: translateY(-2px);
+}
+
+.nav-tabs .nav-link.active,
+.panel-tabset .nav-tabs .nav-link.active {
+  background-color: #08519c !important;
+  color: white !important;
+  border-color: #08519c !important;
+  box-shadow: 0 -4px 10px rgba(8, 81, 156, 0.4);
+  font-weight: 700;
+  transform: translateY(-2px);
 }

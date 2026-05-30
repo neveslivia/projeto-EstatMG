@@ -1,0 +1,324 @@
+---
+title: "Acidentes em Minas Gerais"
+
+format:
+  dashboard:
+    theme: cosmo
+
+css: style.css
+---
+
+```{r setup}
+#| include: false
+
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(sf)
+library(DT)
+library(readxl)
+library(bslib)
+library(htmltools)
+library(bslib)
+library(bsicons)
+acidentes <- read_excel("../dados/acidentes_2020.xlsx")
+
+invisible(capture.output({
+  source("../scripts/01_carregamento.R")
+  source("../scripts/02_limpeza.R")
+  source("../scripts/03_funcoes.R")
+}))
+
+total_acidentes <- nrow(acidentes)
+total_mortos    <- sum(acidentes$mortos,  na.rm = TRUE)
+total_feridos   <- sum(acidentes$feridos, na.rm = TRUE)
+
+```
+
+
+
+
+# Visão Geral
+
+## Row {height=100%}
+
+### {width=20%}
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+card_kpi(
+  format(nrow(acidentes), big.mark = "."),
+  "Total de acidentes",
+  "azul1",
+   bsicons::bs_icon("car-front")
+)
+
+```
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+card_kpi(
+  sum(acidentes$mortos, na.rm = TRUE),
+  "Total de mortes",
+  "azul2",
+  bsicons::bs_icon("exclamation-triangle")
+)
+```
+
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+br_mais_perigosa <- acidentes %>%
+  group_by(br) %>%
+  summarise(mortes = sum(mortos, na.rm = TRUE)) %>%
+  arrange(desc(mortes)) %>%
+  slice(1) %>%
+  pull(br)
+
+card_kpi(
+  br_mais_perigosa,
+  "BR mais perigosa",
+  "azul3",
+   bsicons::bs_icon("geo-alt")
+)
+```
+
+
+### {width=80%}
+
+```{r}
+#| title: "Acidentes por Mês"
+criar_grafico_temporal(acidentes, "mes") |>
+  ggplotly(
+    tooltip = "text"
+  ) |>
+  config(
+    displayModeBar = FALSE
+  )
+
+```
+
+
+# Perfil Temporal
+
+## {.tabset}
+
+#### Acidentes por Mês
+
+```{r}
+grafico_interativo(
+  criar_grafico_temporal(acidentes, "mes")
+)
+```
+
+#### Principais Insights
+
+- Mês com maior número de acidentes: ...
+- Mês com menor número de acidentes: ...
+- Diferença entre pico e vale: ...
+- Possível sazonalidade observada em ...
+
+
+#### Dias da Semana
+
+```{r}
+grafico_interativo(
+  criar_barplot(acidentes, "dia_semana")
+)
+```
+
+#### Período do Dia
+
+```{r}
+grafico_interativo(
+  criar_barplot(acidentes, "periodo")
+)
+```
+# Tipos de Acidente
+
+## {.tabset}
+
+### Tipos de Acidente
+
+
+```{r}
+grafico_interativo(criar_barplot(acidentes,"tipo_acidente"))
+```
+
+
+### Rodovias
+```{r}
+grafico_interativo(criar_barplot(acidentes, "br"))
+```
+
+### Municípios
+```{r}
+grafico_interativo(plot_top10(acidentes, "municipio", "Top 10 Municípios"))
+```
+
+# Relações entre variáveis
+## {.tabset}
+### Tipo de pista x Tipo de acidente
+
+```{r}
+grafico_interativo_bivariado(criar_bivariado_cat(acidentes_top10,"tipo_pista","tipo_acidente"))
+```
+
+### Condição meteoreológica x Tipo de acidente
+
+```{r}
+grafico_interativo_bivariado(criar_bivariado_cat(acidentes_top10,"condicao_metereologica","tipo_acidente"))
+```
+
+### Mortos x Período
+
+```{r}
+grafico_interativo(criar_boxplot_bivariado(acidentes,"periodo","mortos"))
+```
+
+### Tipo de pista x Tipo acidente
+```{r}
+grafico_interativo_bivariado(criar_bivariado_cat(acidentes_top10,"tipo_pista","tipo_acidente"))
+```
+
+
+# Análise Espacial
+## {.tabset}
+
+### Municípios
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(sf)
+library(dplyr)
+library(stringr)
+library(leaflet)
+library(RColorBrewer)
+
+mg <- st_read(
+  "C:/Users/Usuario/Downloads/MG_Municipios_2025/MG_Municipios_2025.shp",
+  quiet = TRUE
+) |> st_transform(crs = 4326)  
+
+ac_por_muni <- acidentes %>%
+  count(municipio) %>%
+  mutate(municipio = str_to_upper(municipio))
+
+mg$NM_MUN <- str_to_upper(mg$NM_MUN)
+
+mapa_muni <- mg %>%
+  left_join(ac_por_muni, by = c("NM_MUN" = "municipio")) %>%
+  mutate(n = replace_na(n, 0))
+
+paleta_muni <- colorNumeric(
+  palette = "Blues",
+  domain  = mapa_muni$n
+)
+
+tooltip_muni <- paste0(
+  "<b>", mapa_muni$NM_MUN, "</b><br>",
+  "Acidentes: <b>", mapa_muni$n, "</b>"
+) |> lapply(htmltools::HTML)
+
+mapa_municipios <- leaflet(mapa_muni) %>%
+  addProviderTiles(providers$CartoDB.Positron) %>%  
+  addPolygons(
+    fillColor   = ~paleta_muni(n),
+    fillOpacity = 0.85,
+    color       = "#2c5f8a",
+    weight      = 1.8,
+    smoothFactor = 0.3,
+    highlight = highlightOptions(
+      weight      = 2.5,
+      color       = "#08519c",
+      fillOpacity = 1,
+      bringToFront = TRUE
+    ),
+    label        = tooltip_muni,
+    labelOptions = labelOptions(
+      style     = list("font-weight" = "normal", padding = "5px 10px"),
+      textsize  = "13px",
+      direction = "auto"
+    )
+  ) %>%
+  addLegend(
+    pal      = paleta_muni,
+    values   = ~n,
+    title    = "Nº de Acidentes",
+    position = "bottomright",
+    opacity  = 0.85
+  ) %>%
+  setView(lng = -44.5, lat = -18.5, zoom = 6)
+
+mapa_municipios
+
+
+```
+
+### Rodovias
+```{r}
+#| echo: false  
+#| warning: false
+#| message: false
+
+ac_por_br <- acidentes %>%
+  filter(!is.na(latitude), !is.na(longitude)) %>%
+  mutate(
+    br = paste0("BR-", br),
+    latitude  = as.numeric(latitude),
+    longitude = as.numeric(longitude)
+  )
+
+top_brs <- ac_por_br %>%
+  count(br) %>%
+  arrange(desc(n)) %>%
+  slice(1:10) %>%
+  pull(br)
+
+ac_top_br <- ac_por_br %>%
+  filter(br %in% top_brs)
+
+paleta_br <- colorFactor(
+  palette = "Set1",
+  domain  = ac_top_br$br
+)
+
+mapa_rodovias <- leaflet(ac_top_br) %>%
+  addProviderTiles(providers$CartoDB.DarkMatter) %>%  
+  addCircleMarkers(
+    lng         = ~longitude,
+    lat         = ~latitude,
+    radius      = 4,
+    color       = ~paleta_br(br),
+    fillOpacity = 0.7,
+    stroke      = FALSE,
+    label = ~paste0(br, " — ", municipio),
+    clusterOptions = markerClusterOptions()  
+  ) %>%
+  addLegend(
+    pal      = paleta_br,
+    values   = ~br,
+    title    = "Rodovia",
+    position = "bottomright",
+    opacity  = 0.9
+  ) %>%
+  setView(lng = -44.5, lat = -18.5, zoom = 6)
+
+mapa_rodovias
+
+
+```
+
+

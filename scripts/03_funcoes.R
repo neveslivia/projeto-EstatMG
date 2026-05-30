@@ -527,65 +527,68 @@ criar_bivariado_empilhado <- function(dados, var1, var2){
     )
   
 }
+
 criar_bivariado_cat <- function(dados, var1, var2){
   
   nome1 <- arrumar_nome(var1)
   nome2 <- arrumar_nome(var2)
   
+  dados_contados <- dados %>%
+    count(.data[[var1]], .data[[var2]]) %>%
+    rename(quantidade = n)
+  
   ggplot(
-    dados,
+    dados_contados,
     aes(
       x = .data[[var1]],
-      fill = .data[[var2]]
+      y = quantidade,
+      fill = .data[[var2]],
+      text = paste0(
+        nome1, ": ", .data[[var1]], "<br>",
+        nome2, ": ", .data[[var2]], "<br>",
+        "Quantidade: ", quantidade
+      )
     )
   ) +
-    
     geom_bar(
+      stat = "identity",
       position = "dodge",
       width = 0.7
     ) +
-    
-    scale_fill_manual(
-      values = paleta_projeto
-    ) +
-    
-    guides(
-      fill = guide_legend(
-        nrow = 4
-      )
-    ) +
-    
+    scale_fill_manual(values = paleta_projeto) +
     labs(
       title = paste(nome1, "por", nome2),
       x = nome1,
       y = "Quantidade",
       fill = nome2
     ) +
-    
     tema_projeto() +
-    
     theme(
-      
-      axis.text.x = element_text(
-        angle = 20,
-        hjust = 1
-      ),
-      
-      legend.position = "bottom",
-      
-      legend.title = element_text(
-        size = 10,
-        face = "bold"
-      ),
-      
-      legend.text = element_text(
-        size = 8
-      ),
-      
-      legend.box = "vertical"
-      
+      axis.text.x = element_text(angle = 30, hjust = 1, size = 9),
+      axis.title.x = element_text(margin = margin(t = 15)),
+      legend.position = "right"  
     )
-  
+}
+
+grafico_interativo_bivariado <- function(grafico){
+  ggplotly(
+    grafico,
+    tooltip = "text",
+    height = 500
+  ) |>
+    layout(
+      legend = list(
+        orientation = "h",   
+        x = 0,
+        y = -0.25,
+        font = list(size = 10),
+        title = list(text = "Tipo Acidente")
+      ),
+      margin = list(b = 180, r = 10)
+    ) |>
+    config(
+      displayModeBar = FALSE
+    )
 }
 card_kpi <- function(valor, titulo, cor, icone = NULL){
   
@@ -601,16 +604,12 @@ card_kpi <- function(valor, titulo, cor, icone = NULL){
   )
   
 }
-
 grafico_interativo <- function(grafico){
-  
   ggplotly(
     grafico,
     tooltip = "text"
   ) |>
-    
     config(
       displayModeBar = FALSE
     )
-  
 }
