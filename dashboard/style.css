@@ -1,0 +1,68 @@
+.card-dashboard {
+  border-radius: 18px;
+  padding: 20px;
+  color: white;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.azul1 {
+  background-color: #08519c;
+}
+
+.azul2 {
+  background-color: #3182bd;
+}
+
+.azul3 {
+  background-color: #6baed6;
+}
+
+.valor {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.titulo {
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+/* Ícones */
+.icone-card {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+/* Navbar */
+.navbar {
+  background-color: #08519c !important;
+}
+
+.navbar a,
+.navbar-brand,
+.nav-link {
+  color: white !important;
+}
+
+.nav-link:hover {
+  background-color: #0b3c73 !important;
+  border-radius: 10px;
+}
+
+.nav-link.active,
+.navbar-nav .nav-link.active,
+.nav-pills .nav-link.active {
+  background-color: #063970 !important;
+  color: white !important;
+  border-radius: 10px;
+}
+
+/* Remove fundos brancos dos painéis */
+.card,
+.dashboard-card,
+.bslib-card {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}

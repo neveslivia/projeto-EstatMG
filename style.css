@@ -1,0 +1,21 @@
+.navbar {
+  background-color: #08519c !important;
+}
+
+.navbar-brand {
+  color: white !important;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: white !important;
+}
+
+.value-box {
+  border-radius: 20px !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15) !important;
+}
+
+body {
+  background-color: #f8fbff;
+}

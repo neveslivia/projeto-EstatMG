@@ -1,0 +1,357 @@
+---
+title: "Acidentes Rodoviários · Minas Gerais 2020"
+format:
+  dashboard:
+    theme:
+      - cosmo
+      css: style.css
+    scrolling: true
+    nav-buttons:
+      - icon: github
+        href: "#"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r setup}
+#| include: false
+
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(bslib)
+library(bsicons)
+library(htmltools)
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(lubridate)
+
+invisible(capture.output({
+  source("../scripts/01_carregamento.R")
+  source("../scripts/02_limpeza.R")
+  source("../scripts/03_funcoes.R")
+}))
+
+total_acidentes <- nrow(acidentes)
+total_mortos    <- sum(acidentes$mortos,  na.rm = TRUE)
+total_feridos   <- sum(acidentes$feridos, na.rm = TRUE)
+
+br_top_label <- acidentes %>%
+  count(br, sort = TRUE) %>%
+  slice(1) %>%
+  pull(br)
+
+# ── Helper: converte ggplot em plotly com tema transparente ──────────────────
+plotly_mg <- function(p, altura = 420) {
+  ggplotly(p, height = altura) %>%
+    layout(
+      paper_bgcolor = "rgba(0,0,0,0)",
+      plot_bgcolor  = "rgba(0,0,0,0)",
+      margin        = list(t = 10, r = 16, b = 10, l = 16),
+      legend = list(
+        orientation = "h", y = -0.18, x = 0.5, xanchor = "center",
+        font = list(size = 11)
+      ),
+      hoverlabel = list(
+        bgcolor     = "#08519c",
+        font        = list(color = "#ffffff", size = 12),
+        bordercolor = "#2b8cbe"
+      )
+    ) %>%
+    config(displayModeBar = FALSE, scrollZoom = FALSE)
+}
+
+# ── Helper: caixa de insight ─────────────────────────────────────────────────
+caixa_insight <- function(icone = "💡", texto) {
+  HTML(paste0(
+    '<div class="caixa-insight">',
+    '<strong>', icone, '&nbsp;</strong>', texto,
+    '</div>'
+  ))
+}
+```
+
+#  Visão Geral
+
+## Row {height="20%"}
+
+```{r card-acidentes}
+value_box(
+  title    = "Total de acidentes",
+  value    = format(total_acidentes, big.mark = ".", decimal.mark = ","),
+  showcase = bs_icon("car-front-fill"),
+  theme    = value_box_theme(bg = "#08519c", fg = "#ffffff")
+)
+```
+
+```{r card-mortos}
+value_box(
+  title    = "Óbitos registrados",
+  value    = format(total_mortos, big.mark = ".", decimal.mark = ","),
+  showcase = bs_icon("exclamation-triangle-fill"),
+  theme    = value_box_theme(bg = "#b91c1c", fg = "#ffffff")
+)
+```
+
+```{r card-feridos}
+value_box(
+  title    = "Pessoas feridas",
+  value    = format(total_feridos, big.mark = ".", decimal.mark = ","),
+  showcase = bs_icon("heart-pulse-fill"),
+  theme    = value_box_theme(bg = "#d97706", fg = "#ffffff")
+)
+```
+
+```{r card-br}
+value_box(
+  title    = "Rodovia mais crítica",
+  value    = br_top_label,
+  showcase = bs_icon("sign-stop-fill"),
+  theme    = value_box_theme(bg = "#1a6eb5", fg = "#ffffff")
+)
+```
+
+## Row {height="55%"}
+
+```{r grafico-mensal}
+#| title: "Acidentes por Mês"
+g <- criar_grafico_temporal(acidentes, "mes")
+plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-mensal}
+caixa_insight(
+  icone = "📌",
+  texto = "Cole aqui sua interpretação sobre a evolução mensal dos acidentes."
+)
+```
+
+## Row {height="55%"}
+
+```{r grafico-periodo-visao}
+#| title: "Acidentes por Período do Dia"
+g <- criar_barplot(acidentes, "periodo")
+plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-periodo-visao}
+caixa_insight(
+  icone = "🕐",
+  texto = "Cole aqui sua interpretação sobre o período do dia com mais acidentes."
+)
+```
+
+# Perfil Temporal
+
+## Row {height="55%"}
+
+```{r temporal-mes}
+#| title: "Acidentes por Mês"
+g <- criar_grafico_temporal(acidentes, "mes")
+plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-temporal-mes}
+caixa_insight(
+  icone = "📅",
+  texto = "Cole aqui sua interpretação sobre a sazonalidade mensal dos acidentes."
+)
+```
+
+## Row {height="55%"}
+
+```{r temporal-dia-semana}
+#| title: "Acidentes por Dia da Semana"
+g <- criar_barplot(acidentes, "dia_semana")
+plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-dia-semana}
+caixa_insight(
+  icone = "📆",
+  texto = "Cole aqui sua interpretação sobre o padrão semanal dos acidentes."
+)
+```
+
+## Row {height="55%"}
+
+```{r temporal-periodo}
+#| title: "Acidentes por Período do Dia"
+g <- criar_barplot(acidentes, "periodo")
+plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-temporal-periodo}
+caixa_insight(
+  icone = "🕐",
+  texto = "Cole aqui sua interpretação sobre o período crítico do dia."
+)
+```
+
+#  Tipos de Acidente
+
+## Row {height="55%"}
+
+```{r tipo-frequencia}
+#| title: "Frequência por Tipo de Acidente"
+
+# ── Substitua pela sua função ────────────────────────────────
+# g <- sua_funcao(seus_dados, ...)
+# plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-tipo-freq}
+caixa_insight(
+  icone = "🚧",
+  texto = "Cole aqui sua interpretação sobre o tipo predominante de acidente."
+)
+```
+
+## Row {height="55%"}
+
+```{r bivariado-pista-tipo}
+#| title: "Tipo de Pista × Tipo de Acidente"
+
+# ── Substitua pela sua função ────────────────────────────────
+# g <- sua_funcao(seus_dados, ...)
+# plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-pista-tipo}
+caixa_insight(
+  icone = "🛣️",
+  texto = "Cole aqui sua interpretação sobre a relação entre tipo de pista e tipo de acidente."
+)
+```
+
+## Row {height="55%"}
+
+```{r bivariado-meteo-tipo}
+#| title: "Condição Meteorológica × Tipo de Acidente"
+
+# ── Substitua pela sua função ────────────────────────────────
+# g <- sua_funcao(seus_dados, ...)
+# plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-meteo-tipo}
+caixa_insight(
+  icone = "🌦️",
+  texto = "Cole aqui sua interpretação sobre como o clima influencia os tipos de acidente."
+)
+```
+
+# Gravidade
+
+## Row {height="55%"}
+
+```{r boxplot-periodo}
+#| title: "Mortos por Período do Dia"
+
+# ── Substitua pela sua função ────────────────────────────────
+# g <- sua_funcao(seus_dados, ...)
+# plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-gravidade-periodo}
+caixa_insight(
+  icone = "⚠️",
+  texto = "Cole aqui sua interpretação sobre a severidade dos acidentes por período do dia."
+)
+```
+
+## Row {height="55%"}
+
+```{r boxplot-pista}
+#| title: "Mortos por Tipo de Pista"
+
+# ── Substitua pela sua função ────────────────────────────────
+# g <- sua_funcao(seus_dados, ...)
+# plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-gravidade-pista}
+caixa_insight(
+  icone = "🛣️",
+  texto = "Cole aqui sua interpretação sobre a severidade dos acidentes por tipo de pista."
+)
+```
+
+## Row {height="55%"}
+
+```{r gravidade-tipo}
+#| title: "Mortos por Tipo de Acidente"
+
+# ── Substitua pela sua função ────────────────────────────────
+# g <- sua_funcao(seus_dados, ...)
+# plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-gravidade-tipo}
+caixa_insight(
+  icone = "💀",
+  texto = "Cole aqui sua interpretação sobre quais tipos de acidente causam mais óbitos."
+)
+```
+
+## Row {height="55%"}
+
+```{r gravidade-br}
+#| title: "Top Rodovias por Número de Óbitos"
+
+# ── Substitua pela sua função ────────────────────────────────
+# g <- sua_funcao(seus_dados, ...)
+# plotly_mg(g)
+```
+
+## Row {height="10%"}
+
+```{r insight-gravidade-br}
+caixa_insight(
+  icone = "🚨",
+  texto = "Cole aqui sua interpretação sobre as rodovias com maior número de óbitos."
+)
+```
+
+#  Análise Espacial
+
+## Row {height="80%"}
+
+```{r mapa-municipios}
+#| title: "Distribuição de Acidentes por Município — Minas Gerais"
+
+```
+
+## Row {height="10%"}
+
+```{r insight-mapa}
+caixa_insight(
+  icone = "🗺️",
+  texto = "Cole aqui sua interpretação sobre a distribuição espacial dos acidentes em Minas Gerais."
+)
+```

@@ -127,18 +127,27 @@ criar_histograma <- function(dados, variavel){
   
 }
 
-
-
 criar_barplot_numerico <- function(dados, variavel){
+  
+  freq <- dados %>%
+    count(.data[[variavel]])
   
   nome <- arrumar_nome(variavel)
   
   ggplot(
-    dados,
-    aes(x = factor(.data[[variavel]]))
+    freq,
+    aes(
+      x = factor(.data[[variavel]]),
+      y = n,
+      
+      text = paste0(
+        nome, ": ", .data[[variavel]],
+        "<br>Frequência: ", n
+      )
+    )
   ) +
     
-    geom_bar(
+    geom_col(
       fill = cor_principal,
       width = 0.7
     ) +
@@ -152,8 +161,6 @@ criar_barplot_numerico <- function(dados, variavel){
     tema_projeto()
   
 }
-
-
 analise_numerica <- function(dados, variavel){
   
   tabela <- data.frame(
@@ -223,20 +230,25 @@ analise_categorica <- function(dados, variavel){
 
 criar_barplot <- function(dados, variavel){
   
+  freq <- dados %>%
+    count(.data[[variavel]])
+  
   nome <- arrumar_nome(variavel)
   
   ggplot(
-    dados,
+    freq,
     aes(
-      y = reorder(
-        .data[[variavel]],
-        .data[[variavel]],
-        function(x) length(x)
+      y = reorder(.data[[variavel]], n),
+      x = n,
+      
+      text = paste0(
+        nome, ": ", .data[[variavel]],
+        "<br>Quantidade: ", n
       )
     )
   ) +
     
-    geom_bar(
+    geom_col(
       fill = cor_principal
     ) +
     
@@ -249,8 +261,6 @@ criar_barplot <- function(dados, variavel){
     tema_projeto()
   
 }
-
-
 
 plot_top10 <- function(dados, categoria, titulo = "Top 10") {
   
@@ -266,7 +276,12 @@ plot_top10 <- function(dados, categoria, titulo = "Top 10") {
     top10,
     aes(
       y = reorder(.data[[categoria]], n),
-      x = n
+      x = n,
+      
+      text = paste0(
+        categoria, ": ", .data[[categoria]],
+        "<br>Quantidade: ", n
+      )
     )
   ) +
     
@@ -290,7 +305,6 @@ plot_top10 <- function(dados, categoria, titulo = "Top 10") {
     tema_projeto()
   
 }
-
 
 
 
@@ -337,7 +351,12 @@ criar_grafico_temporal <- function(dados, variavel){
       aes(
         x = .data[[variavel]],
         y = n,
-        group = 1
+        group = 1,
+        
+        text = paste0(
+          nome, ": ", .data[[variavel]],
+          "<br>Quantidade de acidentes: ", n
+        )
       )
     ) +
     
@@ -381,7 +400,11 @@ criar_barplot_horizontal <- function(dados, variavel){
     ggplot(
       aes(
         y = reorder(.data[[variavel]], n),
-        x = n
+        x = n,
+        text = paste0(
+          nome, ": ", .data[[variavel]],
+          "<br>Quantidade: ", n
+        )
       )
     ) +
     
@@ -443,7 +466,13 @@ criar_bivariado_empilhado <- function(dados, var1, var2){
     dados,
     aes(
       x = .data[[var1]],
-      fill = .data[[var2]]
+      fill = .data[[var2]],
+      
+      text = paste0(
+        nome1, ": ", .data[[var1]],
+        "<br>",
+        nome2, ": ", .data[[var2]]
+      )
     )
   ) +
     
@@ -555,6 +584,33 @@ criar_bivariado_cat <- function(dados, var1, var2){
       
       legend.box = "vertical"
       
+    )
+  
+}
+card_kpi <- function(valor, titulo, cor, icone = NULL){
+  
+  div(
+    class = paste("card-dashboard", cor),
+    
+    if (!is.null(icone))
+      div(class = "icone-card", icone),
+    
+    div(class = "valor", valor),
+    
+    div(class = "titulo", titulo)
+  )
+  
+}
+
+grafico_interativo <- function(grafico){
+  
+  ggplotly(
+    grafico,
+    tooltip = "text"
+  ) |>
+    
+    config(
+      displayModeBar = FALSE
     )
   
 }

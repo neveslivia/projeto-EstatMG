@@ -1,0 +1,294 @@
+---
+title: "Dashboard — Acidentes Rodoviários em Minas Gerais"
+
+format:
+  dashboard:
+    theme: cosmo
+    css: styles.css
+
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+
+library(ggplot2)
+library(plotly)
+library(dplyr)
+library(sf)
+library(DT)
+library(readxl)
+library(bslib)
+library(htmltools)
+library(bslib)
+library(bsicons)
+acidentes <- read_excel("../dados/acidentes_2020.xlsx")
+
+```
+
+```{r}
+
+source("../scripts/01_carregamento.R")
+invisible(source("../scripts/02_limpeza.R")
+)
+source("../scripts/03_funcoes.R")
+```
+
+# Visão Geral
+
+## Indicadores
+
+::::: {.column width="25%"}
+### Total de acidentes
+
+```{r}
+total_acidentes <- nrow(acidentes)
+value_box(
+  title = "Total de acidentes",
+  value = format(total_acidentes,
+                 big.mark = ".",
+                 decimal.mark = ","),
+  showcase = bs_icon("car-front"),
+  theme = "primary"
+)
+```
+
+:::: {.column width="25%"}
+### Total de mortos
+
+```{r}
+total_mortos <- sum(acidentes$mortos, na.rm = TRUE)
+value_box(
+  title = "Total de mortos",
+  value = format(total_mortos,
+                 big.mark = ".",
+                 decimal.mark = ","),
+  showcase = bs_icon("exclamation-triangle"),
+  theme = "danger"
+)
+```
+
+::: {.column width="25%"}
+### Total de feridos
+
+```{r}
+total_feridos <- sum(acidentes$feridos, na.rm = TRUE)
+value_box(
+  title = "Total de feridos",
+  value = format(total_feridos,
+                 big.mark = ".",
+                 decimal.mark = ","),
+  showcase = bs_icon("heart-pulse"),
+  theme = "warning"
+)
+```
+
+```{css}
+.value-box {
+  border-radius: 20px !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15) !important;
+  transition: transform 0.2s;
+}
+
+.value-box:hover {
+  transform: scale(1.02);
+}
+
+
+```
+
+# Análise temporal
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+grafico <- criar_grafico_temporal(acidentes, "mes")
+ggplotly(grafico)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+grafico <-criar_barplot(acidentes,"dia_semana")
+ggplotly(grafico)
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+grafico <- criar_barplot(acidentes,"periodo")
+ggplotly(grafico)
+```
+
+# Tipos de acidente
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+analise_categorica(acidentes,"tipo_acidente" )
+grafico <- criar_barplot(acidentes,"tipo_acidente" )
+ggplotly(grafico)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+grafico <- criar_bivariado_cat(acidentes_top10,"tipo_pista","tipo_acidente")
+ggplotly(grafico)
+
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+grafico <- criar_bivariado_cat(acidentes_top10,"condicao_metereologica","tipo_acidente")
+ggplotly(grafico)
+```
+
+# Gravidade
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+grafico <- criar_boxplot_bivariado(acidentes,"periodo","mortos")
+ggplotly(grafico)
+```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+ grafico <- criar_boxplot_bivariado(acidentes,"tipo_pista","mortos")
+ ggplotly(grafico)
+```
+
+# Mapa
+
+```{r  fig.width=12, fig.height=12}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+
+mg <- st_read(
+  "C:/Users/Usuario/Downloads/MG_Municipios_2025/MG_Municipios_2025.shp",
+  quiet = TRUE
+)
+
+ac_por_muni <- acidentes %>%
+  count(municipio)
+
+ac_por_muni$municipio <- str_to_upper(
+  ac_por_muni$municipio
+)
+
+mg$NM_MUN <- str_to_upper(
+  mg$NM_MUN
+)
+
+mapa_final <- mg %>%
+  
+  left_join(
+    ac_por_muni,
+    by = c("NM_MUN" = "municipio")
+  ) %>%
+  
+  mutate(
+    
+    faixa = case_when(
+      
+      n >= 300 ~ "300+",
+      n >= 200 ~ "200 - 299",
+      n >= 100 ~ "100 - 199",
+      n >= 50  ~ "50 - 99",
+      n >= 1   ~ "1 - 49",
+      TRUE ~ "Sem registros"
+      
+    )
+    
+  )
+
+ggplot(mapa_final) +
+  
+  geom_sf(
+    aes(fill = faixa),
+    color = "gray70",
+    size = 0.08
+  ) +
+  
+  scale_fill_manual(
+    
+    values = c(
+      
+      "300+" = "#084081",
+      "200 - 299" = "#0868ac",
+      "100 - 199" = "#2b8cbe",
+      "50 - 99" = "#7bccc4",
+      "1 - 49" = "#d9e6f2",
+      "Sem registros" = "#f5f5f5"
+      
+    )
+    
+  ) +
+  
+  coord_sf(
+    xlim = c(-51, -40),
+    ylim = c(-23, -14),
+    expand = FALSE
+  ) +
+  
+  labs(
+    
+    title = "Distribuição de acidentes por município em Minas Gerais",
+    
+    subtitle = "Municípios classificados por faixa de acidentes",
+    
+    fill = "Acidentes"
+    
+  ) +
+  
+  theme_void() +
+  
+  theme(
+    
+    plot.title = element_text(
+      size = 18,
+      face = "bold",
+      hjust = 0.5
+    ),
+    
+    plot.subtitle = element_text(
+      size = 11,
+      hjust = 0.5,
+      color = "gray40"
+    ),
+    
+    legend.position = "bottom",
+    
+    legend.title = element_text(
+      face = "bold"
+    ),
+    
+    legend.text = element_text(
+      size = 9
+    )
+    
+  )
+```
+:::
+::::
+:::::
